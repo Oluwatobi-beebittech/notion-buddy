@@ -160,6 +160,7 @@ function buildConfig({
     plugins: [
       new DefinePlugin({
         BACKEND_HOST: JSON.stringify(backendHost),
+        NOTIONBUDDY_OAUTH_ROUTE: JSON.stringify(process.env.CANVA_NOTIONBUDDY_OAUTH_ROUTE)
       }),
       // Apps can only submit a single JS file via the developer portal
       new optimize.LimitChunkCountPlugin({ maxChunks: 1 }),

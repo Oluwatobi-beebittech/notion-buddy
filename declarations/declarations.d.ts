@@ -27,3 +27,4 @@ declare module "*.svg" {
 }
 
 declare const BACKEND_HOST: string;
+declare const NOTIONBUDDY_OAUTH_ROUTE: string;
