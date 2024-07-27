@@ -58,7 +58,7 @@ export const Dashboard: React.FC = (): JSX.Element => {
       />
     );
   }
-  
+
   return (
     <PageWrapper>
       <Rows spacing="3u">
@@ -85,7 +85,13 @@ export const Dashboard: React.FC = (): JSX.Element => {
             </TabList>
             <TabPanels>
               <TabPanel id="pages">
-                <PageCards totalPages={totalPages} pages={pages} />
+                <PageCards
+                  totalPages={totalPages}
+                  pages={pages}
+                  onPageClick={() => {
+                    if (showAlert) setShowAlert(false);
+                  }}
+                />
               </TabPanel>
               <TabPanel id="settings">
                 <Settings userId={userId} />

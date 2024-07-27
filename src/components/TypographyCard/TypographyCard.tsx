@@ -14,6 +14,7 @@ type Props = TypographyCardProps & {
   badgeText: string;
   badgeTone: Tone;
   badgeTooltipLabel?: string | undefined;
+  loading?: boolean | undefined;
 };
 export const TypographyCard: React.FC<Props> = ({
   ariaLabel,
@@ -21,6 +22,7 @@ export const TypographyCard: React.FC<Props> = ({
   badgeTone,
   badgeTooltipLabel,
   children,
+  loading,
   onClick,
   onDragStart,
 }) => {
@@ -33,7 +35,13 @@ export const TypographyCard: React.FC<Props> = ({
           tooltipLabel={badgeTooltipLabel}
         />
         <Box className={styles.groupButton}>
-          <Button icon={GridIcon} onClick={() => {}} variant="tertiary" tooltipLabel="Group items"/>
+          <Button
+            icon={GridIcon}
+            onClick={() => {}}
+            variant="tertiary"
+            tooltipLabel="Group items"
+            disabled={loading}
+          />
         </Box>
       </Box>
       <CanvaTypographyCard

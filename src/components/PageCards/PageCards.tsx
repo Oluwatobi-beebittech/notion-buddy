@@ -7,8 +7,10 @@ import { useNotionBuddyStore, State } from "src/store";
 type Props = {
   pages: Array<any>;
   totalPages: number;
+  onPageClick?: ((pageId: string) => void) | undefined;
 };
 export const PageCards: React.FC<Props> = ({
+  onPageClick,
   totalPages,
   pages,
 }): JSX.Element => {
@@ -47,7 +49,10 @@ export const PageCards: React.FC<Props> = ({
           return (
             <PageCard
               icon={displayIcon}
-              onClick={() => setNotionDetails({ selectedPage: id })}
+              onClick={() => {
+                onPageClick?.(id);
+                setNotionDetails({ selectedPage: id });
+              }}
               thumbnailUrl={cover?.external?.url}
               key={id}
               title={title?.[0]?.["plain_text"]}

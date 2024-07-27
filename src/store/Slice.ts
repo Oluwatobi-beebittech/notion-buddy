@@ -1,38 +1,58 @@
-import { StateCreator } from 'zustand';
+import { StateCreator } from "zustand";
 
-import { DesignDetailsState, NotionDetailsState, State, UserDetailsState } from './Types';
+import {
+  DesignDetailsState,
+  NotionDetailsState,
+  State,
+  UserDetailsState,
+} from "./Types";
 
 export const createDesignDetailsSlice: StateCreator<
-    State,
-    [],
-    [],
-    DesignDetailsState
+  State,
+  [],
+  [],
+  DesignDetailsState
 > = (set) => ({
-	canvaDesignToken: '',
-    setDesignDetails: (designDetails) => set((state) => ({ designDetails: { ...state.designDetails, ...designDetails } })),
+  canvaDesignToken: "",
+  setDesignDetails: (designDetails) =>
+    set((state) => ({
+      designDetails: { ...state.designDetails, ...designDetails },
+    })),
 });
 
 export const createNotionDetailsSlice: StateCreator<
-    State,
-    [],
-    [],
-    NotionDetailsState
+  State,
+  [],
+  [],
+  NotionDetailsState
 > = (set) => ({
-	totalPages: 0,
-    pages: [],
-    selectedPage: '',
-    setNotionDetails: (notionDetails) => set((state) => ({ notionDetails: { ...state.notionDetails, ...notionDetails } })),
+  totalPages: 0,
+  pages: [],
+  pageBlocks: {},
+  selectedPage: "",
+  setNotionDetails: (notionDetails) =>
+    set((state) => ({
+      notionDetails: { ...state.notionDetails, ...notionDetails },
+    })),
+  setNotionPageBlocks: (pageBlockDetails) =>
+    set((state) => ({
+      notionDetails: {
+        ...state.notionDetails,
+        pageBlocks: { ...state.notionDetails.pageBlocks, ...pageBlockDetails },
+      },
+    })),
 });
 
 export const createUserDetailsSlice: StateCreator<
-    State,
-    [],
-    [],
-    UserDetailsState
+  State,
+  [],
+  [],
+  UserDetailsState
 > = (set) => ({
-	canvaUserToken: '',
-    hasNotionAccessToken: false,
-    isNotionAccessTokenValid: false,
-    userId: '',
-    setUserDetails: (userDetails) => set((state) => ({ userDetails: { ...state.userDetails, ...userDetails } })),
+  canvaUserToken: "",
+  hasNotionAccessToken: false,
+  isNotionAccessTokenValid: false,
+  userId: "",
+  setUserDetails: (userDetails) =>
+    set((state) => ({ userDetails: { ...state.userDetails, ...userDetails } })),
 });

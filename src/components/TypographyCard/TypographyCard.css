@@ -2,7 +2,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: var(--ui-kit-space-050);
 }
 
 .actionRow {

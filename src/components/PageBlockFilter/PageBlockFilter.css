@@ -1,0 +1,8 @@
+.pageBlockFilter {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ui-kit-space-1);
+    padding: var(--ui-kit-space-2) var(--ui-kit-space-1) !important;
+    border: 1px solid var(--ui-kit-color-secondary-active) !important;
+    border-radius: var(--ui-kit-space-1);
+}
