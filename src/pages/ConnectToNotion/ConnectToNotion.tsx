@@ -4,11 +4,14 @@ import { requestOpenExternalUrl } from "@canva/platform";
 import { getDesignToken } from "@canva/design";
 import { PageWrapper } from "src/components";
 import { saveDesignId } from "src/api";
+import { useNotionBuddyStore, State } from "src/store";
 
-type Props = {
-  userId: string;
-};
-export const ConnectToNotion: React.FC<Props> = ({ userId }): JSX.Element => {
+export const ConnectToNotion: React.FC = (): JSX.Element => {
+  const { designDetails, userDetails } = useNotionBuddyStore<State>(
+    (state) => state
+  );
+  const { setDesignDetails } = designDetails;
+  const { userId } = userDetails;
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
   const notionBuddyConnectionUrl: string = userId
@@ -24,6 +27,7 @@ export const ConnectToNotion: React.FC<Props> = ({ userId }): JSX.Element => {
 
     if (response.status === "COMPLETED") {
       await saveDesignId(JSON.stringify({ userId }), designToken);
+      setDesignDetails({ canvaDesignToken: designToken });
     }
 
     setIsLoading(false);

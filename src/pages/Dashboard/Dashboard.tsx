@@ -1,27 +1,98 @@
 import * as React from "react";
+import * as searchjs from "searchjs";
+import find from "lodash.find";
+import matchesProperty from "lodash.matchesproperty";
+import { searchProperty } from "src/utilities";
 import {
+  Alert,
+  CogIcon,
+  Grid,
+  GridViewIcon,
   Rows,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
   Text,
-  Title,
 } from "@canva/app-ui-kit";
-import { PageWrapper } from "src/components";
+import { PageCards, PageWrapper } from "src/components";
+import { getAllPages } from "src/api";
+import { useNotionBuddyStore, State } from "src/store";
+import { Settings } from "./Settings";
+import { Page } from "./Page";
 
-type Props = {
-  userId: string;
-};
-export const Dashboard: React.FC<Props> = ({ userId }): JSX.Element => {
-  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+export const Dashboard: React.FC = (): JSX.Element => {
+  const [showAlert, setShowAlert] = React.useState<boolean>(true);
+  const { userDetails, notionDetails } = useNotionBuddyStore<State>(
+    (state) => state
+  );
+  const { pages, setNotionDetails, totalPages, selectedPage } = notionDetails;
+  const { canvaUserToken, userId } = userDetails;
 
+  const getPages = async () => {
+    const response = await getAllPages(
+      JSON.stringify({ userId }),
+      canvaUserToken
+    );
+    setNotionDetails({
+      pages: response.results,
+      totalPages: response.results.length,
+    });
+    console.log({ response });
+  };
+
+  React.useEffect(() => {
+    getPages();
+  }, []);
+
+  if (Boolean(selectedPage)) {
+    return (
+      <Page
+        onBack={() =>
+          setNotionDetails({
+            selectedPage: "",
+          })
+        }
+        selectedPage={selectedPage}
+      />
+    );
+  }
+  
   return (
     <PageWrapper>
       <Rows spacing="3u">
-        <Title tone="primary" size="medium" alignment="center">
-          Your account is connected
-        </Title>
-        <Text>
-          You will be able to import text content from Notion pages when you
-          connect to Notion.
-        </Text>
+        {showAlert && (
+          <Alert
+            tone="positive"
+            onDismiss={() => {
+              setShowAlert(false);
+            }}
+          >
+            You are now connected to Notion
+          </Alert>
+        )}
+
+        <Tabs>
+          <Rows spacing="2u">
+            <TabList>
+              <Tab id="pages" start={<GridViewIcon />}>
+                Pages
+              </Tab>
+              <Tab id="settings" start={<CogIcon />}>
+                Settings
+              </Tab>
+            </TabList>
+            <TabPanels>
+              <TabPanel id="pages">
+                <PageCards totalPages={totalPages} pages={pages} />
+              </TabPanel>
+              <TabPanel id="settings">
+                <Settings userId={userId} />
+              </TabPanel>
+            </TabPanels>
+          </Rows>
+        </Tabs>
       </Rows>
     </PageWrapper>
   );

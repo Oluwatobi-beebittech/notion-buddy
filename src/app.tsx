@@ -3,17 +3,16 @@ import { auth } from "@canva/user";
 import * as React from "react";
 import { Connection404, ConnectToNotion, Dashboard } from "./pages";
 import { PageWrapper } from "./components";
-import { getUserDetails, UserDetails, verifyNotionConnection } from "./api";
+import { getUserDetails, verifyNotionConnection } from "./api";
+import { useNotionBuddyStore, State } from "./store";
 
 export const App = () => {
-  const [userDetails, setUserDetails] = React.useState<UserDetails>({
-    userId: "",
-    hasNotionAccessToken: false,
-    isNotionAccessTokenValid: false,
-  });
+  const { userDetails} = useNotionBuddyStore<State>((state) => state);
+  const {userId, hasNotionAccessToken, isNotionAccessTokenValid, setUserDetails} =  userDetails;
+
   const [progress, setProgress] = React.useState<number>(0);
 
-  const callNotion = async () => {
+  const initialiseUser = async () => {
     setProgress(50);
     const userToken = await auth.getCanvaUserToken();
 
@@ -21,36 +20,34 @@ export const App = () => {
     const { hasNotionAccessToken, userId } = responseUserDetails;
 
     if (!hasNotionAccessToken) {
-      setUserDetails(responseUserDetails);
+      setUserDetails({...responseUserDetails, canvaUserToken: userToken});
       setProgress(100);
       return;
     }
 
     setProgress(75);
-    await verifyNotionConnection(JSON.stringify({ userId }), userToken);
+    const { isNotionAccessTokenValid } = await verifyNotionConnection(JSON.stringify({ userId }), userToken);
 
     setProgress(100);
-    setUserDetails(responseUserDetails);
+    setUserDetails({...responseUserDetails, canvaUserToken: userToken, isNotionAccessTokenValid });
   };
 
   React.useEffect(() => {
-    callNotion();
+    initialiseUser();
   }, []);
 
-  const { userId, hasNotionAccessToken, isNotionAccessTokenValid } =
-    userDetails;
-  const isUserRegistered = Boolean(userId);
+  const isUserRegistered: boolean = Boolean(userId);
 
   if (isUserRegistered && !hasNotionAccessToken && !isNotionAccessTokenValid) {
-    return <ConnectToNotion userId={userId} />;
+    return <ConnectToNotion />;
   }
 
   if (isUserRegistered && hasNotionAccessToken && isNotionAccessTokenValid) {
-    return <Dashboard userId={userId} />;
+    return <Dashboard />;
   }
 
   if (isUserRegistered && hasNotionAccessToken && !isNotionAccessTokenValid) {
-    return <Connection404 userId={userId} />;
+    return <Connection404 />;
   }
 
   return (

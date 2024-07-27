@@ -1,0 +1,16 @@
+.pageCard {
+    background-color: var(--ui-kit-color-tabdock);
+    border-radius: var(--ui-kit-space-1);
+    padding: var(--ui-kit-space-050);
+    transition: var(--ui-kit-hover-transition);
+}
+
+.pageCard:hover, .pageCard:focus-visible, .pageCard:focus {
+    cursor: pointer;
+    background-color: var(--ui-kit-color-neutral-low);
+  }
+  
+  .pageCard:hover h5, .pageCard:focus-visible h5, .pageCard:focus h5 {
+    cursor: pointer;
+    text-decoration: underline;
+  }

@@ -4,11 +4,14 @@ import { requestOpenExternalUrl } from "@canva/platform";
 import { getDesignToken } from "@canva/design";
 import { PageWrapper } from "src/components";
 import { saveDesignId } from "src/api";
+import { useNotionBuddyStore, State } from "src/store";
 
-type Props = {
-  userId: string;
-};
-export const Connection404: React.FC<Props> = ({ userId }): JSX.Element => {
+export const Connection404: React.FC = (): JSX.Element => {
+  const { designDetails, userDetails } = useNotionBuddyStore<State>(
+    (state) => state
+  );
+  const { setDesignDetails } = designDetails;
+  const { userId } = userDetails;
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
   const notionBuddyConnectionUrl: string = userId
@@ -24,6 +27,7 @@ export const Connection404: React.FC<Props> = ({ userId }): JSX.Element => {
 
     if (response.status === "COMPLETED") {
       await saveDesignId(JSON.stringify({ userId }), designToken);
+      setDesignDetails({ canvaDesignToken: designToken });
     }
 
     setIsLoading(false);
@@ -36,7 +40,8 @@ export const Connection404: React.FC<Props> = ({ userId }): JSX.Element => {
           Connection to your Notion account failed
         </Title>
         <Text>
-          Sorry, we couldn't establish a connection to your Notion account. Please try reconnecting to Notion.
+          Sorry, we couldn't establish a connection to your Notion account.
+          Please try reconnecting to Notion.
         </Text>
         <Button
           variant="primary"
