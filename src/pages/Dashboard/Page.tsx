@@ -7,7 +7,12 @@ import {
   Button,
   Rows,
 } from "@canva/app-ui-kit";
-import { PageBlock, PageBlockFilter, PageBlockLoading, PageWrapper } from "src/components";
+import {
+  PageBlock,
+  PageBlockFilter,
+  PageBlockLoading,
+  PageWrapper,
+} from "src/components";
 import { getPageBlocks } from "src/api";
 
 import { useNotionBuddyStore, State } from "src/store";
@@ -25,29 +30,67 @@ export const Page: React.FC<Props> = ({
     (state) => state
   );
   const { canvaUserToken } = userDetails;
-  const { pageBlocks, setNotionPageBlocks } = notionDetails;
-  const [isPageBlocksReloading, setIsPageBlocksReloading] = React.useState<boolean>(false);
+  const {
+    blockSearchQuery,
+    pageBlocks,
+    selectedBlockType,
+    setNotionPageBlocks,
+    showEmptyBlocks,
+  } = notionDetails;
+  const [isPageBlocksReloading, setIsPageBlocksReloading] =
+    React.useState<boolean>(false);
 
   const getPageContent = async () => {
     const { results } = await getPageBlocks(selectedPage, canvaUserToken);
-    const uniqueBlockTypes: Array<string> = Array.from(new Set(results.map(({ type }) => type)));
+    const uniqueBlockTypes: Array<string> = Array.from(
+      new Set(results.map(({ type }) => type))
+    );
     let pageBlockFilters = {};
-    uniqueBlockTypes.forEach(blockType => {
-      const blockTypeCollection = results.filter(({type}) => type === blockType);
+    uniqueBlockTypes.forEach((blockType) => {
+      const blockTypeCollection = results.filter(
+        ({ type }) => type === blockType
+      );
       pageBlockFilters = {
         ...pageBlockFilters,
-        [blockType]: blockTypeCollection
-      }
-    })
+        [blockType]: blockTypeCollection,
+      };
+    });
 
-    const unsupportedBlocks = results.filter(({type}) => !SupportedNotionBlocks.includes(type));
-    
-    setNotionPageBlocks({ [selectedPage]: {all: results, ...pageBlockFilters, unsupported: unsupportedBlocks} });
+    const unsupportedBlocks = results.filter(
+      ({ type }) => !SupportedNotionBlocks.includes(type)
+    );
+
+    setNotionPageBlocks({
+      [selectedPage]: {
+        all: results,
+        ...pageBlockFilters,
+        unsupported: unsupportedBlocks,
+      },
+    });
     setIsPageBlocksReloading(false);
   };
 
   const hasBlocks: boolean = Object.keys(pageBlocks).includes(selectedPage);
   const isLoading: boolean = !hasBlocks || isPageBlocksReloading;
+
+  const getPageBlocksBySearchQuery = React.useCallback(() => {
+    const selectedPageBlocks = pageBlocks[selectedPage][selectedBlockType];
+    if (blockSearchQuery === "") {
+      console.log({selectedPageBlocks});
+      return selectedPageBlocks.filter((block) =>
+        showEmptyBlocks
+          ? true
+          : block[block.type]["rich_text"]?.[0]?.["plain_text"] !== ("" || undefined)
+      );
+    }
+
+    return selectedPageBlocks.filter((block) => {
+      const blockText =
+        block[block.type]["rich_text"]?.[0]?.["plain_text"]?.toLowerCase();
+
+      return blockText?.includes(blockSearchQuery.toLowerCase());
+    });
+  }, [blockSearchQuery, showEmptyBlocks, isLoading, selectedBlockType]);
 
   React.useEffect(() => {
     if (hasBlocks) return;
@@ -67,18 +110,20 @@ export const Page: React.FC<Props> = ({
             tooltipLabel="Refresh page content"
             disabled={!hasBlocks || isPageBlocksReloading}
             loading={isPageBlocksReloading}
-            onClick={()=> {
+            onClick={() => {
               setIsPageBlocksReloading(true);
               getPageContent();
             }}
           />
         </Box>
-        <PageBlockFilter disabled={!hasBlocks || isPageBlocksReloading}/>
-        {isLoading &&
-          Array.from({ length: 8 }).map(() => <PageBlockLoading />)}
+        <PageBlockFilter
+          disabled={!hasBlocks || isPageBlocksReloading}
+          selectedPageId={selectedPage}
+        />
+        {isLoading && Array.from({ length: 8 }).map(() => <PageBlockLoading key={window.crypto.randomUUID()} />)}
         {!isLoading &&
-          pageBlocks[selectedPage]['all'].map((pageBlock: any) => (
-            <PageBlock block={pageBlock} />
+          getPageBlocksBySearchQuery().map((pageBlock: any) => (
+            <PageBlock block={pageBlock} key={pageBlock.id} />
           ))}
       </Rows>
     </PageWrapper>

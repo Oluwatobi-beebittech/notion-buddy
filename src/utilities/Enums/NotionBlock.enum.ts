@@ -1,4 +1,5 @@
 export enum NotionBlock {
+    AUDIO = "audio",
     BOOKMARK = "bookmark",
     BREADCRUMB = "breadcrumb",
     BULLETED_LIST_ITEM = "bulleted_list_item",

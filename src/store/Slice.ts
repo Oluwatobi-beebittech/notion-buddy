@@ -29,7 +29,10 @@ export const createNotionDetailsSlice: StateCreator<
   totalPages: 0,
   pages: [],
   pageBlocks: {},
+  selectedBlockType: 'all',
+  blockSearchQuery: '',
   selectedPage: "",
+  showEmptyBlocks: true,
   setNotionDetails: (notionDetails) =>
     set((state) => ({
       notionDetails: { ...state.notionDetails, ...notionDetails },

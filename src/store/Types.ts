@@ -14,9 +14,12 @@ export type DesignDetailsState = {
 }
 
 export type NotionDetailsState = {
+    blockSearchQuery: string;
     pageBlocks: PageBlocks;
     pages: Array<any>;
+    selectedBlockType: string;
     selectedPage: string;
+    showEmptyBlocks: boolean;
     totalPages: number;
     setNotionDetails: (notionDetails: Partial<NotionDetailsState>) => void;
     setNotionPageBlocks: (pageBlockDetails: PageBlocks) => void;

@@ -2,32 +2,31 @@ import * as React from "react";
 import {
   Badge,
   Box,
-  Button,
-  TypographyCard as CanvaTypographyCard,
-  GridIcon,
+  ImageCard as CanvaImageCard,
 } from "@canva/app-ui-kit";
 import { Tone } from "@canva/app-ui-kit/dist/cjs/ui/apps/developing/ui_kit/components/badge/badge";
-import styles from "./TypographyCard.css";
-import { TypographyCardProps } from "@canva/app-ui-kit/dist/cjs/ui/apps/developing/ui_kit/components/card/typography/typography";
+import styles from "./ImageCard.css";
+import { ImageCardProps } from "@canva/app-ui-kit/dist/cjs/ui/apps/developing/ui_kit/components/card/image/image";
 
-type Props = TypographyCardProps & {
+type Props = ImageCardProps & {
   badgeText: string;
   badgeTone: Tone;
   badgeTooltipLabel?: string | undefined;
   loading?: boolean | undefined;
 };
-export const TypographyCard: React.FC<Props> = ({
+export const ImageCard: React.FC<Props> = ({
   ariaLabel,
   badgeText,
   badgeTone,
   badgeTooltipLabel,
-  children,
   loading,
   onClick,
   onDragStart,
+  thumbnailUrl
 }) => {
+  console.log({imageCard: "Image card"});
   return (
-    <Box className={styles.typographyCard}>
+    <Box className={styles.imageCard}>
       <Box className={styles.actionRow}>
         <Badge
           tone={badgeTone}
@@ -44,13 +43,13 @@ export const TypographyCard: React.FC<Props> = ({
           /> */}
         </Box>
       </Box>
-      <CanvaTypographyCard
+      <CanvaImageCard
+        loading={loading}
         ariaLabel={ariaLabel}
+        thumbnailUrl={thumbnailUrl}
         onClick={onClick}
         onDragStart={onDragStart}
-      >
-        {children}
-      </CanvaTypographyCard>
+      />
     </Box>
   );
 };

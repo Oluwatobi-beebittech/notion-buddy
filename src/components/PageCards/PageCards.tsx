@@ -21,7 +21,7 @@ export const PageCards: React.FC<Props> = ({
     return (
       <Grid alignX="stretch" alignY="stretch" columns={2} spacing="1u">
         {Array.from({ length: 8 }).map(() => (
-          <PageCardSkeleton />
+          <PageCardSkeleton key={window.crypto.randomUUID()}/>
         ))}
       </Grid>
     );
@@ -37,7 +37,6 @@ export const PageCards: React.FC<Props> = ({
           const isIconEmoji = iconType?.toLowerCase() === "emoji";
           const iconImageUrl = icon?.[icon?.type]?.["url"];
           const isIconImage = Boolean(iconImageUrl);
-          console.log({ page });
 
           let displayIcon: string | React.ReactNode = "";
           if (isIconEmoji) displayIcon = icon[iconType];

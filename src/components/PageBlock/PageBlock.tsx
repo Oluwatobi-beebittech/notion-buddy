@@ -1,8 +1,14 @@
 import * as React from "react";
 import { Text } from "@canva/app-ui-kit";
 import { TypographyCard } from "../TypographyCard";
+import { ImageCard } from "../ImageCard";
 import { ui } from "@canva/design";
-import { HumanFriendlyBlockName, SupportedNotionBlocks } from "src/utilities";
+import {
+  HumanFriendlyBlockName,
+  NotionBlock,
+  NotionBlockBadgeColour,
+  SupportedNotionBlocks,
+} from "src/utilities";
 
 type Props = {
   block: any;
@@ -16,25 +22,48 @@ export const PageBlock: React.FC<Props> = ({ block }): JSX.Element => {
       type: "TEXT",
       children: textCollection,
     });
-  }
-  
+  };
+
+  const badgeTone = SupportedNotionBlocks.includes(block.type)
+    ? NotionBlockBadgeColour[block.type]
+    : "critical";
+  const badgeText = HumanFriendlyBlockName?.[block.type] ?? 'Unknown block';
   const text = block[block.type]["rich_text"]?.[0]?.["plain_text"] ?? "";
 
-  return (
-    <TypographyCard
-      badgeTone={
-        SupportedNotionBlocks.includes(block.type) ? "positive" : "critical"
-      }
-      badgeText={HumanFriendlyBlockName[block.type]}
-      onClick={() => {}}
-      ariaLabel="Hello world"
-      onDragStart={(event: React.DragEvent<HTMLElement>) =>
-        handleDragStart(event, [text])
-      }
-    >
-      <Text lineClamp={2}>
-        {block[block.type]["rich_text"]?.[0]?.["plain_text"] ?? ""}
-      </Text>
-    </TypographyCard>
-  );
+  switch (block.type) {
+    case NotionBlock.IMAGE: {
+      const blockType = block.type;
+      const imageConfig = block[blockType];
+      const imageType = imageConfig.type;
+
+        console.log({block});
+      return (
+        <ImageCard
+          badgeTone={badgeTone}
+          thumbnailUrl={imageConfig[imageType]["url"]}
+          badgeText={badgeText}
+          onClick={() => {}}
+          ariaLabel="Hello world"
+          onDragStart={(event: React.DragEvent<HTMLElement>) =>
+            handleDragStart(event, [text])
+          }
+        />
+      );
+    }
+    default: {
+      return (
+        <TypographyCard
+          badgeTone={badgeTone}
+          badgeText={badgeText}
+          onClick={() => {}}
+          ariaLabel="Hello world"
+          onDragStart={(event: React.DragEvent<HTMLElement>) =>
+            handleDragStart(event, [text])
+          }
+        >
+          <Text lineClamp={2}>{text}</Text>
+        </TypographyCard>
+      );
+    }
+  }
 };

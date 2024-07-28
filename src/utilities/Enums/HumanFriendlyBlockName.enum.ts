@@ -1,6 +1,7 @@
 import { NotionBlock } from "./NotionBlock.enum";
 
 export const HumanFriendlyBlockName = {
+  [NotionBlock.AUDIO]: "Audio",
   [NotionBlock.BOOKMARK]: "Bookmark",
   [NotionBlock.BREADCRUMB]: "Breadcrumb",
   [NotionBlock.BULLETED_LIST_ITEM]: "Bulleted List Item",

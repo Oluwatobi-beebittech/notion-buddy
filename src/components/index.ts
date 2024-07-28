@@ -1,3 +1,4 @@
+export * from './ImageCard';
 export * from './PageBlock';
 export * from './PageBlockFilter';
 export * from './PageCard';

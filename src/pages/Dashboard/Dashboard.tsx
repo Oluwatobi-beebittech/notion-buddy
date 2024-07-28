@@ -39,7 +39,6 @@ export const Dashboard: React.FC = (): JSX.Element => {
       pages: response.results,
       totalPages: response.results.length,
     });
-    console.log({ response });
   };
 
   React.useEffect(() => {
@@ -52,6 +51,7 @@ export const Dashboard: React.FC = (): JSX.Element => {
         onBack={() =>
           setNotionDetails({
             selectedPage: "",
+            selectedBlockType: "all"
           })
         }
         selectedPage={selectedPage}
