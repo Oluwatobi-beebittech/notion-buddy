@@ -12,6 +12,8 @@ import {
   SupportedNotionBlocks,
   handleAudioClick,
   handleAudioDragStart,
+  handleTextClick,
+  handleTextDragStart,
   handleVideoClick,
   handleVideoDragStart,
   handleImageClick,
@@ -23,23 +25,6 @@ type Props = {
   block: any;
 };
 export const PageBlock: React.FC<Props> = ({ block }): JSX.Element => {
-
-  const handleClick = (textCollection: Array<string>) => {
-    addNativeElement({
-      type: "TEXT",
-      children: textCollection,
-    });
-  }
-  const handleDragStart = (
-    event: React.DragEvent<HTMLElement>,
-    textCollection: Array<string>
-  ) => {
-    ui.startDrag(event, {
-      type: "TEXT",
-      children: textCollection,
-    });
-  };
-
   const badgeTone = SupportedNotionBlocks.includes(block.type)
     ? NotionBlockBadgeColour[block.type]
     : "critical";
@@ -130,10 +115,10 @@ export const PageBlock: React.FC<Props> = ({ block }): JSX.Element => {
         <TypographyCard
           badgeTone={badgeTone}
           badgeText={badgeText}
-          onClick={() => {handleClick([text])}}
+          onClick={() => {handleTextClick([text])}}
           ariaLabel="Hello world"
           onDragStart={(event: React.DragEvent<HTMLElement>) =>
-            handleDragStart(event, [text])
+            handleTextDragStart(event, [text])
           }
         >
           <Text lineClamp={2}>{text}</Text>
