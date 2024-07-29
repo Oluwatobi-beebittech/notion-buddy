@@ -1,0 +1,1 @@
+export const defaultImagePlaceholder = "https://res.cloudinary.com/dfybu7w8o/image/upload/v1722291693/notionbuddy/zg1sqdogfdsig1pmxs4d.png";

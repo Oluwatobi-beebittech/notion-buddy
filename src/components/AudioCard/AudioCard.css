@@ -1,0 +1,18 @@
+.audioCard {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--ui-kit-space-050);
+}
+
+.actionRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: end;
+}
+
+.groupButton {
+    height: fit-content;
+    margin-bottom: -12px !important;
+}

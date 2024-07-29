@@ -44,9 +44,11 @@ export const ImageCard: React.FC<Props> = ({
         </Box>
       </Box>
       <CanvaImageCard
+      borderRadius="standard"
         loading={loading}
         ariaLabel={ariaLabel}
         thumbnailUrl={thumbnailUrl}
+        thumbnailHeight={150}
         onClick={onClick}
         onDragStart={onDragStart}
       />

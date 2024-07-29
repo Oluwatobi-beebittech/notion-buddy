@@ -1,7 +1,7 @@
 import * as React from "react";
 import { PageCard, PageCardSkeleton } from "../PageCard";
 import { Grid } from "@canva/app-ui-kit";
-import { searchProperty } from "src/utilities";
+import { defaultImagePlaceholder, searchProperty } from "src/utilities";
 import { useNotionBuddyStore, State } from "src/store";
 
 type Props = {
@@ -52,7 +52,7 @@ export const PageCards: React.FC<Props> = ({
                 onPageClick?.(id);
                 setNotionDetails({ selectedPage: id });
               }}
-              thumbnailUrl={cover?.external?.url}
+              thumbnailUrl={cover?.external?.url ?? defaultImagePlaceholder}
               key={id}
               title={title?.[0]?.["plain_text"]}
             />
