@@ -7,13 +7,13 @@ import {
   Rows,
   Text,
 } from "@canva/app-ui-kit";
+import { upload } from "@canva/asset";
 import { addNativeElement } from "@canva/design";
 import cat from "assets/images/cat.jpg";
 import dog from "assets/images/dog.jpg";
 import rabbit from "assets/images/rabbit.jpg";
 import { useState, useCallback } from "react";
 import baseStyles from "styles/components.css";
-import { upload } from "@canva/asset";
 
 const images = {
   dog: {

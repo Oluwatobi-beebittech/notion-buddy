@@ -1,12 +1,13 @@
+import { overlay as designOverlay } from "@canva/design";
+import { appProcess } from "@canva/platform";
+import { useEffect, useState } from "react";
+
 import type {
   AppProcessId,
   OverlayOpenableEvent,
   OverlayTarget,
 } from "@canva/design";
-import { overlay as designOverlay } from "@canva/design";
 import type { CloseParams } from "@canva/platform";
-import { appProcess } from "@canva/platform";
-import { useEffect, useState } from "react";
 
 const initialOverlayEvent: OverlayOpenableEvent<OverlayTarget> = {
   canOpen: false,

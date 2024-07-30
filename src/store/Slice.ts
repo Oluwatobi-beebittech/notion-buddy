@@ -1,11 +1,11 @@
-import { StateCreator } from "zustand";
-
-import {
+import type {
   DesignDetailsState,
   NotionDetailsState,
   State,
   UserDetailsState,
 } from "./Types";
+import type { StateCreator } from "zustand";
+
 
 export const createDesignDetailsSlice: StateCreator<
   State,

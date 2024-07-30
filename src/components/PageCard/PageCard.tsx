@@ -1,5 +1,6 @@
-import * as React from "react";
 import { Box, ImageCard, Rows, Title } from "@canva/app-ui-kit";
+import * as React from "react";
+
 import styles from "./PageCard.css";
 
 type Props = {

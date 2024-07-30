@@ -1,18 +1,23 @@
 import "dotenv/config";
 import * as cookieParser from "cookie-parser";
+
 import * as crypto from "crypto";
+
 import * as express from "express";
 import * as cors from "cors";
 import * as basicAuth from "express-basic-auth";
-import { getTokenFromQueryString } from "../../../utils/backend/jwt_middleware/jwt_middleware";
-import { createBaseServer } from "../../../utils/backend/base_backend/create";
-import { createJwtMiddleware } from "../../../utils/backend/jwt_middleware";
-import { JSONFileDatabase } from "./database";
+
 import type {
   Container,
   FindResourcesRequest,
   Resource,
 } from "@canva/app-components";
+
+import { JSONFileDatabase } from "./database";
+import { createBaseServer } from "../../../utils/backend/base_backend/create";
+import { createJwtMiddleware } from "../../../utils/backend/jwt_middleware";
+import { getTokenFromQueryString } from "../../../utils/backend/jwt_middleware/jwt_middleware";
+
 
 /**
  * Generates a unique hash for a url.

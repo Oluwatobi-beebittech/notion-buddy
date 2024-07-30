@@ -1,6 +1,9 @@
-import * as React from "react";
 import { Box, Rows, SearchInputMenu, Text } from "@canva/app-ui-kit";
-import { useNotionBuddyStore, State } from "src/store";
+import * as React from "react";
+import { useNotionBuddyStore } from "src/store";
+
+import type { State } from "src/store";
+
 
 type Props = {
   disabled: boolean;

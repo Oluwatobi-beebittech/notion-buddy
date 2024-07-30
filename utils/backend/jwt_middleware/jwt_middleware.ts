@@ -1,11 +1,12 @@
 /* eslint-disable no-console */
 import * as chalk from "chalk";
 import * as debug from "debug";
-import type { Request, Response, NextFunction } from "express";
+import Express from "express-serve-static-core";
 import * as jwt from "jsonwebtoken";
 import { JwksClient, SigningKeyNotFoundError } from "jwks-rsa";
+
+import type { Request, Response, NextFunction } from "express";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import Express from "express-serve-static-core";
 
 /**
  * Prefix your start command with `DEBUG=express:middleware:jwt` to enable debug logging

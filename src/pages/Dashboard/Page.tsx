@@ -1,5 +1,3 @@
-import * as React from "react";
-import styles from "./Page.css";
 import {
   ArrowLeftIcon,
   ReloadIcon,
@@ -7,16 +5,20 @@ import {
   Button,
   Rows,
 } from "@canva/app-ui-kit";
+import * as React from "react";
+import { getPageBlocks } from "src/api";
 import {
   PageBlock,
   PageBlockFilter,
   PageBlockLoading,
   PageWrapper,
 } from "src/components";
-import { getPageBlocks } from "src/api";
-
-import { useNotionBuddyStore, State } from "src/store";
+import { useNotionBuddyStore } from "src/store";
 import { SupportedNotionBlocks } from "src/utilities";
+
+import type { State } from "src/store";
+
+import styles from "./Page.css";
 
 type Props = {
   onBack: () => void;
@@ -42,7 +44,7 @@ export const Page: React.FC<Props> = ({
 
   const getPageContent = async () => {
     const { results } = await getPageBlocks(selectedPage, canvaUserToken);
-    const uniqueBlockTypes: Array<string> = Array.from(
+    const uniqueBlockTypes: string[] = Array.from(
       new Set(results.map(({ type }) => type))
     );
     let pageBlockFilters = {};

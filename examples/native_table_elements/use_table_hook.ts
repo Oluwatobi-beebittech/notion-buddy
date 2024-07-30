@@ -1,6 +1,7 @@
-import { TableWrapper } from "utils/table_wrapper";
-import type { NativeTableElement } from "@canva/preview/design";
 import { useCallback, useEffect, useState } from "react";
+import { TableWrapper } from "utils/table_wrapper";
+
+import type { NativeTableElement } from "@canva/preview/design";
 
 /**
  * The current state of a cell within a table.

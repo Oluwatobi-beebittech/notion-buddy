@@ -8,10 +8,11 @@ import {
   TextInput,
   Title,
 } from "@canva/app-ui-kit";
-import type { FontWeight, TextAttributes } from "@canva/design";
 import { addNativeElement } from "@canva/design";
 import { useState } from "react";
 import styles from "styles/components.css";
+
+import type { FontWeight, TextAttributes } from "@canva/design";
 
 type UIState = {
   text: string;

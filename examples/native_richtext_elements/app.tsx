@@ -1,8 +1,10 @@
 import { Button, Rows, Text } from "@canva/app-ui-kit";
 import { addNativeElement, createRichtextRange } from "@canva/preview/design";
-import type { TextRegion } from "@canva/preview/design";
-import styles from "styles/components.css";
 import { useEffect, useState } from "react";
+import styles from "styles/components.css";
+
+import type { TextRegion } from "@canva/preview/design";
+
 
 let richtext = createRichtextRange();
 export const App = () => {

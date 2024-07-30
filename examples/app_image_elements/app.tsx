@@ -8,13 +8,13 @@ import {
   Rows,
   Text,
 } from "@canva/app-ui-kit";
+import { upload } from "@canva/asset";
 import { initAppElement } from "@canva/design";
 import cat from "assets/images/cat.jpg";
 import dog from "assets/images/dog.jpg";
 import rabbit from "assets/images/rabbit.jpg";
 import { useEffect, useState, useCallback } from "react";
 import baseStyles from "styles/components.css";
-import { upload } from "@canva/asset";
 
 // We can't store the image's data URL in the app element's data, since it
 // exceeds the 5kb limit. We can, however, store an ID that references the

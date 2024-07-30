@@ -1,8 +1,9 @@
-import type { Authentication } from "@canva/user";
-import { auth } from "@canva/user";
 import { Box, Button, Rows, Text, Title } from "@canva/app-ui-kit";
+import { auth } from "@canva/user";
 import { useState, useEffect } from "react";
 import styles from "styles/components.css";
+
+import type { Authentication } from "@canva/user";
 
 type State = "authenticated" | "not_authenticated" | "checking" | "error";
 

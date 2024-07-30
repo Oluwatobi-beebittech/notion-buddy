@@ -1,5 +1,5 @@
-import * as React from "react";
 import { Button, PencilIcon, Rows, TrashIcon } from "@canva/app-ui-kit";
+import * as React from "react";
 import {PageWrapper} from 'src/components';
 
 type Props = {

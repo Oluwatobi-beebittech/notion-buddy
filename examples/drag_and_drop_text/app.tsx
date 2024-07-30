@@ -5,10 +5,11 @@ import {
   Text,
   TypographyCard,
 } from "@canva/app-ui-kit";
-import type { FontWeight, TextAttributes } from "@canva/design";
 import { addNativeElement, ui } from "@canva/design";
 import { useState } from "react";
 import styles from "styles/components.css";
+
+import type { FontWeight, TextAttributes } from "@canva/design";
 
 type DraggableTextProperties = {
   textAlign: TextAttributes["textAlign"];

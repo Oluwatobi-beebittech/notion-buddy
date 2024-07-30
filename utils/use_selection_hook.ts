@@ -1,6 +1,7 @@
 import { selection as designSelection } from "@canva/design";
-import type { SelectionEvent, SelectionScope } from "@canva/design";
 import { useEffect, useState } from "react";
+
+import type { SelectionEvent, SelectionScope } from "@canva/design";
 
 /**
  * Returns a selection event, representing a user selection of the specified content type. The

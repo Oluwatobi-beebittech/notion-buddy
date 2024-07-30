@@ -10,10 +10,11 @@ import {
   TextInput,
   Title,
 } from "@canva/app-ui-kit";
-import type { FontWeight, TextAttributes } from "@canva/design";
 import { initAppElement } from "@canva/design";
 import { useEffect, useState } from "react";
 import styles from "styles/components.css";
+
+import type { FontWeight, TextAttributes } from "@canva/design";
 
 type AppElementData = {
   text: string;

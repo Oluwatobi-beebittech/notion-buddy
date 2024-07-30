@@ -1,14 +1,16 @@
-import * as React from "react";
 import {
   AudioContextProvider,
   Badge,
   Box,
   AudioCard as CanvaAudioCard,
 } from "@canva/app-ui-kit";
-import { Tone } from "@canva/app-ui-kit/dist/cjs/ui/apps/developing/ui_kit/components/badge/badge";
-import styles from "./AudioCard.css";
+import * as React from "react";
 import { getResourceMimeType } from "src/api";
-import { AudioCardProps } from "@canva/app-ui-kit/dist/cjs/ui/apps/developing/ui_kit/components/card/audio/audio";
+
+import type { Tone } from "@canva/app-ui-kit/dist/cjs/ui/apps/developing/ui_kit/components/badge/badge";
+import type { AudioCardProps } from "@canva/app-ui-kit/dist/cjs/ui/apps/developing/ui_kit/components/card/audio/audio";
+
+import styles from "./AudioCard.css";
 
 type Props = AudioCardProps & {
   badgeText: string;

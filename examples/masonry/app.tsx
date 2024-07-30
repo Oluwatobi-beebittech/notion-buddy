@@ -6,14 +6,17 @@ import {
   Text,
   Placeholder,
 } from "@canva/app-ui-kit";
-import { useState, useRef } from "react";
-import styles from "styles/components.css";
-import type { QueuedImage } from "@canva/asset";
 import { upload } from "@canva/asset";
 import { addNativeElement, ui } from "@canva/design";
-import type { Image } from "./fake_api";
-import { getImages } from "./fake_api";
+import { useState, useRef } from "react";
 import InfiniteScroll from "react-infinite-scroller";
+import styles from "styles/components.css";
+
+import type { Image } from "./fake_api";
+import type { QueuedImage } from "@canva/asset";
+
+
+import { getImages } from "./fake_api";
 import { generatePlaceholders } from "./utils";
 
 const TARGET_ROW_HEIGHT_PX = 100;

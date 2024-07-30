@@ -1,8 +1,5 @@
-import * as React from "react";
 import { Text } from "@canva/app-ui-kit";
-import { VideoCard } from "../VideoCard";
-import { TypographyCard } from "../TypographyCard";
-import { ImageCard } from "../ImageCard";
+import * as React from "react";
 import { defaultImagePlaceholder } from "src/utilities";
 import {
   HumanFriendlyBlockName,
@@ -18,7 +15,11 @@ import {
   handleImageClick,
   handleImageDragStart,
 } from "src/utilities";
+
 import { AudioCard } from "../AudioCard";
+import { ImageCard } from "../ImageCard";
+import { TypographyCard } from "../TypographyCard";
+import { VideoCard } from "../VideoCard";
 
 type Props = {
   block: any;

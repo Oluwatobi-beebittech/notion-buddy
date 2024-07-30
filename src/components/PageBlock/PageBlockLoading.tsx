@@ -1,5 +1,6 @@
-import * as React from "react";
 import { TextPlaceholder } from "@canva/app-ui-kit";
+import * as React from "react";
+
 import { TypographyCard } from "../TypographyCard";
 
 export const PageBlockLoading: React.FC = (): JSX.Element => (

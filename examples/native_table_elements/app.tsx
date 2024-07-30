@@ -1,6 +1,3 @@
-import { addNativeElement } from "@canva/preview/design";
-import { useState, useCallback } from "react";
-import styles from "styles/components.css";
 import {
   Alert,
   Button,
@@ -15,7 +12,12 @@ import {
   TextInput,
   Title,
 } from "@canva/app-ui-kit";
+import { addNativeElement } from "@canva/preview/design";
+import { useState, useCallback } from "react";
+import styles from "styles/components.css";
+
 import type { CellState, TableState } from "./use_table_hook";
+
 import { useTable } from "./use_table_hook";
 
 const initialState: TableState = {

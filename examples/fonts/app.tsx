@@ -11,11 +11,12 @@ import {
   SegmentedControl,
   ImageCard,
 } from "@canva/app-ui-kit";
-import type { Font, FontStyle, FontWeightName } from "@canva/asset";
 import { findFonts, requestFontSelection } from "@canva/asset";
 import { addNativeElement } from "@canva/design";
 import { useState, useEffect, useCallback } from "react";
 import styles from "styles/components.css";
+
+import type { Font, FontStyle, FontWeightName } from "@canva/asset";
 
 type TextConfig = {
   text: string;

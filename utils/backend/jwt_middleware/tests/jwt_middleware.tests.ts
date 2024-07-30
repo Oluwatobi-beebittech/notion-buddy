@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
-import type { NextFunction, Request, Response } from "express";
-import type { DecodeOptions, Jwt, Secret, VerifyOptions } from "jsonwebtoken";
-import type { JwksClient, SigningKey } from "jwks-rsa";
 import type {
   createJwtMiddleware,
   GetTokenFromRequest,
 } from "../jwt_middleware";
+import type { NextFunction, Request, Response } from "express";
+import type { DecodeOptions, Jwt, Secret, VerifyOptions } from "jsonwebtoken";
+import type { JwksClient, SigningKey } from "jwks-rsa";
 
 type Middleware = (req: Request, res: Response, next: NextFunction) => void;
 

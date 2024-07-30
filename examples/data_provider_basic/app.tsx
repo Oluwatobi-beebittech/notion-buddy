@@ -1,8 +1,9 @@
 import { Rows, Text, Title, tokens } from "@canva/app-ui-kit";
-import type { DataTable, DataTableColumn } from "@canva/preview/data";
 import { onSelectDataTable } from "@canva/preview/data";
 import { useEffect } from "react";
 import styles from "styles/components.css";
+
+import type { DataTable, DataTableColumn } from "@canva/preview/data";
 
 const breedsDataTable: DataTable = {
   name: "Dog breeds",

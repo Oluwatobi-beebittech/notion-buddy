@@ -1,8 +1,6 @@
 import { defaultHeaders } from './Headers'
 
-type ErrorResponse = {
-	[key: string]: any;
-};
+type ErrorResponse = Record<string, any>;
 
 const sendRequest = async <T>(url: string, request: RequestInit): Promise<T> => {
 	const response: Response = await fetch(url, request);

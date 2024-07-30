@@ -1,10 +1,11 @@
-import { useEffect, useRef } from "react";
-import type { LaunchParams } from "./app";
 import { getTemporaryUrl, upload } from "@canva/asset";
-import { useSelection } from "utils/use_selection_hook";
-import type { AppProcessInfo, CloseParams } from "@canva/platform";
 import { appProcess } from "@canva/platform";
+import { useEffect, useRef } from "react";
+import { useSelection } from "utils/use_selection_hook";
+
+import type { LaunchParams } from "./app";
 import type { SelectionEvent } from "@canva/design";
+import type { AppProcessInfo, CloseParams } from "@canva/platform";
 
 // App can extend CloseParams type to send extra data when closing the overlay
 // For example:

@@ -1,4 +1,3 @@
-import * as React from "react";
 import {
   Box,
   Column,
@@ -6,10 +5,12 @@ import {
   SlidersIcon,
   Text,
 } from "@canva/app-ui-kit";
-import { BlockTypeFilter } from "./BlockTypeFilter";
-import styles from "./PageBlockFilter.css";
+import * as React from "react";
+
 import { BlockTextContentFilter } from "./BlockTextContentFilter";
+import { BlockTypeFilter } from "./BlockTypeFilter";
 import { EmptyBlockTextContentFilter } from "./EmptyBlockTextContentFilter";
+import styles from "./PageBlockFilter.css";
 
 type Props = {
   disabled: boolean;

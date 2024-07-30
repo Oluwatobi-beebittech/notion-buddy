@@ -1,13 +1,14 @@
 import * as cors from "cors";
-
 import "dotenv/config";
 import * as express from "express";
-import { createBaseServer } from "../../../utils/backend/base_backend/create";
-import { createJwtMiddleware } from "../../../utils/backend/jwt_middleware";
+import * as jwt from "jsonwebtoken";
+import { SigningKeyNotFoundError } from "jwks-rsa";
+
 import { createBrand, createInMemoryDatabase, createUser } from "./database";
 import { decodeAndVerifyDesignToken } from "./decode_jwt";
-import { SigningKeyNotFoundError } from "jwks-rsa";
-import * as jwt from "jsonwebtoken";
+import { createBaseServer } from "../../../utils/backend/base_backend/create";
+import { createJwtMiddleware } from "../../../utils/backend/jwt_middleware";
+
 
 /**
  * TODO: add your CANVA_APP_ID to the .env file at the root level

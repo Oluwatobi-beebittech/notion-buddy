@@ -1,12 +1,10 @@
 type PageBlockFilters = {
-    all: Array<any>;
-    [key: string]: Array<any>;
-    unsupported: Array<any>;
+    all: any[];
+    [key: string]: any[];
+    unsupported: any[];
 }
 
-type PageBlocks = {
-    [key: string]: PageBlockFilters;
-}
+type PageBlocks = Record<string, PageBlockFilters>
 
 export type DesignDetailsState = {
     canvaDesignToken: string;
@@ -16,7 +14,7 @@ export type DesignDetailsState = {
 export type NotionDetailsState = {
     blockSearchQuery: string;
     pageBlocks: PageBlocks;
-    pages: Array<any>;
+    pages: any[];
     selectedBlockType: string;
     selectedPage: string;
     showEmptyBlocks: boolean;

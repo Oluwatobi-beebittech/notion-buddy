@@ -1,9 +1,10 @@
 #!/usr/bin/env node
-import * as yargs from "yargs";
-import { AppRunner, errorChalk } from "./app_runner";
-import { hideBin } from "yargs/helpers";
-import { Context } from "./context";
 import * as prompts from "prompts";
+import * as yargs from "yargs";
+import { hideBin } from "yargs/helpers";
+
+import { AppRunner, errorChalk } from "./app_runner";
+import { Context } from "./context";
 
 const appRunner = new AppRunner();
 

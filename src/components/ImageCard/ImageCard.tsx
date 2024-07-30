@@ -1,12 +1,14 @@
-import * as React from "react";
 import {
   Badge,
   Box,
   ImageCard as CanvaImageCard,
 } from "@canva/app-ui-kit";
-import { Tone } from "@canva/app-ui-kit/dist/cjs/ui/apps/developing/ui_kit/components/badge/badge";
+import * as React from "react";
+
+import type { Tone } from "@canva/app-ui-kit/dist/cjs/ui/apps/developing/ui_kit/components/badge/badge";
+import type { ImageCardProps } from "@canva/app-ui-kit/dist/cjs/ui/apps/developing/ui_kit/components/card/image/image";
+
 import styles from "./ImageCard.css";
-import { ImageCardProps } from "@canva/app-ui-kit/dist/cjs/ui/apps/developing/ui_kit/components/card/image/image";
 
 type Props = ImageCardProps & {
   badgeText: string;

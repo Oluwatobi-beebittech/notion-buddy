@@ -1,8 +1,3 @@
-import * as React from "react";
-import * as searchjs from "searchjs";
-import find from "lodash.find";
-import matchesProperty from "lodash.matchesproperty";
-import { searchProperty } from "src/utilities";
 import {
   Alert,
   CogIcon,
@@ -16,11 +11,20 @@ import {
   Tabs,
   Text,
 } from "@canva/app-ui-kit";
-import { PageCards, PageWrapper } from "src/components";
+import find from "lodash.find";
+import matchesProperty from "lodash.matchesproperty";
+import * as React from "react";
+import * as searchjs from "searchjs";
 import { getAllPages } from "src/api";
-import { useNotionBuddyStore, State } from "src/store";
-import { Settings } from "./Settings";
+import { PageCards, PageWrapper } from "src/components";
+import { useNotionBuddyStore } from "src/store";
+import { searchProperty } from "src/utilities";
+
+import type { State } from "src/store";
+
+
 import { Page } from "./Page";
+import { Settings } from "./Settings";
 
 export const Dashboard: React.FC = (): JSX.Element => {
   const [showAlert, setShowAlert] = React.useState<boolean>(true);
@@ -45,7 +49,7 @@ export const Dashboard: React.FC = (): JSX.Element => {
     getPages();
   }, []);
 
-  if (Boolean(selectedPage)) {
+  if (selectedPage) {
     return (
       <Page
         onBack={() =>

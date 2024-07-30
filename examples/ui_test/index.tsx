@@ -1,5 +1,7 @@
 import { createRoot } from "react-dom/client";
+
 import { App } from "./app";
+
 import "@canva/app-ui-kit/styles.css";
 import { AppUiProvider } from "@canva/app-ui-kit";
 import { addNativeElement } from "@canva/design";

@@ -1,10 +1,13 @@
 import { ProgressBar, Rows, Text, Title } from "@canva/app-ui-kit";
 import { auth } from "@canva/user";
 import * as React from "react";
-import { Connection404, ConnectToNotion, Dashboard } from "./pages";
-import { PageWrapper } from "./components";
+
+import type { State } from "./store";
+
 import { getUserDetails, verifyNotionConnection } from "./api";
-import { useNotionBuddyStore, State } from "./store";
+import { PageWrapper } from "./components";
+import { Connection404, ConnectToNotion, Dashboard } from "./pages";
+import { useNotionBuddyStore } from "./store";
 
 export const App = () => {
   const { userDetails} = useNotionBuddyStore<State>((state) => state);
@@ -36,7 +39,7 @@ export const App = () => {
     initialiseUser();
   }, []);
 
-  const isUserRegistered: boolean = Boolean(userId);
+  const isUserRegistered = Boolean(userId);
 
   if (isUserRegistered && !hasNotionAccessToken && !isNotionAccessTokenValid) {
     return <ConnectToNotion />;

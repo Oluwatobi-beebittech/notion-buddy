@@ -1,5 +1,6 @@
-import { fireEvent, render } from "@testing-library/react";
 import { TestAppUiProvider } from "@canva/app-ui-kit";
+import { fireEvent, render } from "@testing-library/react";
+
 import { App } from "../app";
 
 describe("app", () => {

@@ -1,7 +1,10 @@
-import * as React from "react";
 import { Box, Rows, Select, Text } from "@canva/app-ui-kit";
+import * as React from "react";
+import { useNotionBuddyStore } from "src/store";
 import { HumanFriendlyBlockName } from "src/utilities";
-import { useNotionBuddyStore, State } from "src/store";
+
+import type { State } from "src/store";
+
 
 type Props = {
   disabled: boolean;

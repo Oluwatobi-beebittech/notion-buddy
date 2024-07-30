@@ -2,11 +2,13 @@ import { useState, useEffect } from "react";
 import { SearchableListView } from "@canva/app-components";
 import { Alert, Box, Button, LoadingIndicator, Rows } from "@canva/app-ui-kit";
 import "@canva/app-ui-kit/styles.css";
-import { config } from "./config";
-import { findResources } from "./adapter";
-import styles from "./index.css";
-import type { Authentication } from "@canva/user";
 import { auth } from "@canva/user";
+
+import type { Authentication } from "@canva/user";
+
+import { findResources } from "./adapter";
+import { config } from "./config";
+import styles from "./index.css";
 
 type AuthenticationState =
   | "authenticated"

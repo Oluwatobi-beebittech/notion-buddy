@@ -1,4 +1,3 @@
-import * as React from "react";
 import {
   Badge,
   Box,
@@ -6,9 +5,12 @@ import {
   TypographyCard as CanvaTypographyCard,
   GridIcon,
 } from "@canva/app-ui-kit";
-import { Tone } from "@canva/app-ui-kit/dist/cjs/ui/apps/developing/ui_kit/components/badge/badge";
+import * as React from "react";
+
+import type { Tone } from "@canva/app-ui-kit/dist/cjs/ui/apps/developing/ui_kit/components/badge/badge";
+import type { TypographyCardProps } from "@canva/app-ui-kit/dist/cjs/ui/apps/developing/ui_kit/components/card/typography/typography";
+
 import styles from "./TypographyCard.css";
-import { TypographyCardProps } from "@canva/app-ui-kit/dist/cjs/ui/apps/developing/ui_kit/components/card/typography/typography";
 
 type Props = TypographyCardProps & {
   badgeText: string;

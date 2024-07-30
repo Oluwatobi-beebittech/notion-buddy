@@ -8,7 +8,7 @@ import {
   Select,
   Text,
 } from "@canva/app-ui-kit";
-import type { Placement } from "@canva/design";
+import { upload } from "@canva/asset";
 import {
   addNativeElement,
   getCurrentPageContext,
@@ -19,7 +19,8 @@ import dog from "assets/images/dog.jpg";
 import rabbit from "assets/images/rabbit.jpg";
 import { useCallback, useEffect, useState } from "react";
 import baseStyles from "styles/components.css";
-import { upload } from "@canva/asset";
+
+import type { Placement } from "@canva/design";
 
 // Below values are only for demonstration purposes.0
 // You can position your elements anywhere on the page by providing arbitrary

@@ -1,8 +1,9 @@
 import { Button, Rows, Text } from "@canva/app-ui-kit";
-import { useEffect, useState } from "react";
-import type { SelectionEvent } from "@canva/preview/design";
 import { selection } from "@canva/preview/design";
+import { useEffect, useState } from "react";
 import styles from "styles/components.css";
+
+import type { SelectionEvent } from "@canva/preview/design";
 
 export const App = () => {
   const [selectionState, setSelectionState] = useState<

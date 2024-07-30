@@ -1,9 +1,11 @@
-import * as React from "react";
 import { Badge, Box, VideoCard as CanvaVideoCard } from "@canva/app-ui-kit";
-import { Tone } from "@canva/app-ui-kit/dist/cjs/ui/apps/developing/ui_kit/components/badge/badge";
-import styles from "./VideoCard.css";
-import { VideoCardProps } from "@canva/app-ui-kit/dist/cjs/ui/apps/developing/ui_kit/components/card/video/video";
+import * as React from "react";
 import { getResourceMimeType } from "src/api";
+
+import type { Tone } from "@canva/app-ui-kit/dist/cjs/ui/apps/developing/ui_kit/components/badge/badge";
+import type { VideoCardProps } from "@canva/app-ui-kit/dist/cjs/ui/apps/developing/ui_kit/components/card/video/video";
+
+import styles from "./VideoCard.css";
 
 type Props = VideoCardProps & {
   alt: string;

@@ -1,11 +1,16 @@
-import * as React from "react";
-import { PageCard, PageCardSkeleton } from "../PageCard";
 import { Grid } from "@canva/app-ui-kit";
+import * as React from "react";
+import { useNotionBuddyStore } from "src/store";
 import { defaultImagePlaceholder, searchProperty } from "src/utilities";
-import { useNotionBuddyStore, State } from "src/store";
+
+import type { State } from "src/store";
+
+import { PageCard, PageCardSkeleton } from "../PageCard";
+
+
 
 type Props = {
-  pages: Array<any>;
+  pages: any[];
   totalPages: number;
   onPageClick?: ((pageId: string) => void) | undefined;
 };

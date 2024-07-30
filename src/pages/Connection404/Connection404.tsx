@@ -1,10 +1,12 @@
-import * as React from "react";
 import { Button, Rows, Text, Title } from "@canva/app-ui-kit";
-import { requestOpenExternalUrl } from "@canva/platform";
 import { getDesignToken } from "@canva/design";
-import { PageWrapper } from "src/components";
+import { requestOpenExternalUrl } from "@canva/platform";
+import * as React from "react";
 import { saveDesignId } from "src/api";
-import { useNotionBuddyStore, State } from "src/store";
+import { PageWrapper } from "src/components";
+import { useNotionBuddyStore } from "src/store";
+
+import type { State } from "src/store";
 
 export const Connection404: React.FC = (): JSX.Element => {
   const { designDetails, userDetails } = useNotionBuddyStore<State>(

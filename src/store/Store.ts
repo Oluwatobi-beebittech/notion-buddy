@@ -1,6 +1,8 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { State } from './Types';
+
+import type { State } from './Types';
+
 import { createDesignDetailsSlice, createNotionDetailsSlice, createUserDetailsSlice } from './Slice';
 
 export const useNotionBuddyStore = create<State>()(

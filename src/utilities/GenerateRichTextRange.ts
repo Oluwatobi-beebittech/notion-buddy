@@ -1,5 +1,5 @@
-import { NotionBlock } from "./Enums";
 import { colour } from "./Colours";
+import { NotionBlock } from "./Enums";
 
 const applyRichTextFormatting = (
   textConfig: any,
