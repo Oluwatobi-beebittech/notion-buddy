@@ -1,20 +1,19 @@
-import { addNativeElement, ui } from "@canva/design";
+import { addNativeElement } from "@canva/design";
+import { generateRichTextRange } from "../GenerateRichTextRange";
 
-export const handleTextClick = (textCollection: Array<string>) => {
-  if (textCollection[0] === "") return;
+export const handleTextClick = (block: any) => {
+  const hasNoText = block[block.type]?.["rich_text"]?.length === 0;
+  const hasNoEquationExpression = !Boolean(block[block.type]?.["expression"]);
   
+  if (hasNoText && hasNoEquationExpression) return;
+
   addNativeElement({
-    type: "TEXT",
-    children: textCollection,
+    // @ts-ignore
+    type: "RICHTEXT",
+    range: generateRichTextRange(block),
   });
 };
 
-export const handleTextDragStart = (
-  event: React.DragEvent<HTMLElement>,
-  textCollection: Array<string>
-) => {
-  ui.startDrag(event, {
-    type: "TEXT",
-    children: textCollection,
-  });
+export const handleTextDragStart = (block: any) => {
+  handleTextClick(block);
 };
