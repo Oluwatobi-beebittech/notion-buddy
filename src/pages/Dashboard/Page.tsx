@@ -8,6 +8,7 @@ import {
 import * as React from "react";
 import { getPageBlocks } from "src/api";
 import {
+  NoResultsFound,
   PageBlock,
   PageBlockFilter,
   PageBlockLoading,
@@ -75,22 +76,27 @@ export const Page: React.FC<Props> = ({
   const hasBlocks: boolean = Object.keys(pageBlocks).includes(selectedPage);
   const isLoading: boolean = !hasBlocks || isPageBlocksReloading;
 
-  const getPageBlocksBySearchQuery = React.useCallback(() => {
+  const getPageBlocksByFilters = React.useCallback(() => {
+    if(isLoading) return [];
+
     const selectedPageBlocks = pageBlocks[selectedPage][selectedBlockType];
     if (blockSearchQuery === "") {
-      console.log({selectedPageBlocks});
-      return selectedPageBlocks.filter((block) =>
-        showEmptyBlocks
+      return selectedPageBlocks.filter((block) =>{
+        const isTypographyBlockEmpty = block[block.type]["rich_text"]?.[0]?.["plain_text"] === ("" || undefined);
+        const isEquationBlockEmpty = block[block.type]?.["expression"] === ("" || undefined);
+        
+        return showEmptyBlocks
           ? true
-          : block[block.type]["rich_text"]?.[0]?.["plain_text"] !== ("" || undefined)
+          : !isTypographyBlockEmpty || !isEquationBlockEmpty}
       );
     }
 
     return selectedPageBlocks.filter((block) => {
       const blockText =
         block[block.type]["rich_text"]?.[0]?.["plain_text"]?.toLowerCase();
+        const equationBlockText: string = block[block.type]?.["expression"]?.toLowerCase();
 
-      return blockText?.includes(blockSearchQuery.toLowerCase());
+      return blockText?.includes(blockSearchQuery.toLowerCase()) || equationBlockText?.includes(blockSearchQuery.toLowerCase());
     });
   }, [blockSearchQuery, showEmptyBlocks, isLoading, selectedBlockType]);
 
@@ -98,6 +104,9 @@ export const Page: React.FC<Props> = ({
     if (hasBlocks) return;
     getPageContent();
   }, []);
+
+  const currentPageContentBlocks = getPageBlocksByFilters();
+  const isCurrentPageContentBlocksEmpty = currentPageContentBlocks?.length === 0;
 
   return (
     <PageWrapper>
@@ -123,8 +132,9 @@ export const Page: React.FC<Props> = ({
           selectedPageId={selectedPage}
         />
         {isLoading && Array.from({ length: 8 }).map(() => <PageBlockLoading key={window.crypto.randomUUID()} />)}
-        {!isLoading &&
-          getPageBlocksBySearchQuery().map((pageBlock: any) => (
+        {!isLoading && isCurrentPageContentBlocksEmpty && <NoResultsFound action={onBack} actionButtonText="Go back to page listing" icon={ArrowLeftIcon} description={blockSearchQuery === "" && showEmptyBlocks ? "Create a content block on the page on Notion." : "Tweak the filter to display matching Notion content blocks."}/>}
+        {!isLoading && !isCurrentPageContentBlocksEmpty &&
+          currentPageContentBlocks.map((pageBlock: any) => (
             <PageBlock block={pageBlock} key={pageBlock.id} />
           ))}
       </Rows>

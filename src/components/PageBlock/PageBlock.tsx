@@ -25,10 +25,13 @@ type Props = {
   block: any;
 };
 export const PageBlock: React.FC<Props> = ({ block }): JSX.Element => {
-  const badgeTone = SupportedNotionBlocks.includes(block.type)
+  const isBlockSupported: boolean = SupportedNotionBlocks.includes(block.type);
+  const badgeTone = isBlockSupported
     ? NotionBlockBadgeColour[block.type]
     : "critical";
-  const badgeText = HumanFriendlyBlockName?.[block.type] ?? "Unknown block";
+    const humanFriendlyBlockName = HumanFriendlyBlockName?.[block.type] ?? "Unknown block";
+    const badgeText = isBlockSupported ? humanFriendlyBlockName : `${humanFriendlyBlockName} - unsupported block`;
+  
   const richTextCollection = block[block.type]["rich_text"] ?? [];
   const hasRichTextCollection = richTextCollection.length > 0;
   const concatenatedPlainText = hasRichTextCollection

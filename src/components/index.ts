@@ -1,5 +1,6 @@
 export * from './AudioCard';
 export * from './ImageCard';
+export * from './NoResultsFound';
 export * from './PageBlock';
 export * from './PageBlockFilter';
 export * from './PageCard';

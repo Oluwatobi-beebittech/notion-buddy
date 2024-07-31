@@ -7,8 +7,6 @@ import type { State } from "src/store";
 
 import { PageCard, PageCardSkeleton } from "../PageCard";
 
-
-
 type Props = {
   pages: any[];
   totalPages: number;

@@ -1,7 +1,6 @@
 import {
   Alert,
   CogIcon,
-  Grid,
   GridViewIcon,
   Rows,
   Tab,
@@ -9,16 +8,11 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
-  Text,
 } from "@canva/app-ui-kit";
-import find from "lodash.find";
-import matchesProperty from "lodash.matchesproperty";
 import * as React from "react";
-import * as searchjs from "searchjs";
 import { getAllPages } from "src/api";
 import { PageCards, PageWrapper } from "src/components";
-import { useNotionBuddyStore } from "src/store";
-import { searchProperty } from "src/utilities";
+import { useNotionBuddyStore } from "src/store"
 
 import type { State } from "src/store";
 
@@ -54,6 +48,7 @@ export const Dashboard: React.FC = (): JSX.Element => {
       <Page
         onBack={() =>
           setNotionDetails({
+            blockSearchQuery: "",
             selectedPage: "",
             selectedBlockType: "all"
           })
@@ -98,7 +93,7 @@ export const Dashboard: React.FC = (): JSX.Element => {
                 />
               </TabPanel>
               <TabPanel id="settings">
-                <Settings userId={userId} />
+                <Settings />
               </TabPanel>
             </TabPanels>
           </Rows>

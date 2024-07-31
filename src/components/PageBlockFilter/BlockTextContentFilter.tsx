@@ -1,4 +1,4 @@
-import { Box, Rows, SearchInputMenu, Text } from "@canva/app-ui-kit";
+import { Rows, SearchInputMenu, Text } from "@canva/app-ui-kit";
 import * as React from "react";
 import { useNotionBuddyStore } from "src/store";
 
