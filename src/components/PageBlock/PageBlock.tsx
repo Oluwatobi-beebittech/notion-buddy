@@ -16,25 +16,32 @@ import {
   SupportedNotionBlocks,
 } from "src/utilities";
 
+import type { Tone } from "@canva/app-ui-kit/dist/cjs/ui/apps/developing/ui_kit/components/badge/badge";
+import type { PageBlockType, RichTextType } from "src/api";
+
 import { AudioCard } from "../AudioCard";
 import { ImageCard } from "../ImageCard";
 import { TypographyCard } from "../TypographyCard";
 import { VideoCard } from "../VideoCard";
 
 type Props = {
-  block: any;
+  block: PageBlockType["results"][number];
 };
 export const PageBlock: React.FC<Props> = ({ block }): JSX.Element => {
   const isBlockSupported: boolean = SupportedNotionBlocks.includes(block.type);
-  const badgeTone = isBlockSupported
+  const badgeTone: Tone = isBlockSupported
     ? NotionBlockBadgeColour[block.type]
     : "critical";
-    const humanFriendlyBlockName = HumanFriendlyBlockName?.[block.type] ?? "Unknown block";
-    const badgeText = isBlockSupported ? humanFriendlyBlockName : `${humanFriendlyBlockName} - unsupported block`;
-  
-  const richTextCollection = block[block.type]["rich_text"] ?? [];
-  const hasRichTextCollection = richTextCollection.length > 0;
-  const concatenatedPlainText = hasRichTextCollection
+  const humanFriendlyBlockName: string =
+    HumanFriendlyBlockName?.[block.type] ?? "Unknown block";
+  const badgeText: string = isBlockSupported
+    ? humanFriendlyBlockName
+    : `${humanFriendlyBlockName} - unsupported block`;
+
+  const richTextCollection: RichTextType[] =
+    block[block.type]["rich_text"] ?? [];
+  const hasRichTextCollection: boolean = richTextCollection.length > 0;
+  const concatenatedPlainText: string = hasRichTextCollection
     ? richTextCollection.map(({ plain_text }) => plain_text).join("")
     : "";
 
@@ -88,7 +95,7 @@ export const PageBlock: React.FC<Props> = ({ block }): JSX.Element => {
       const videoCaption: string =
         videoConfig.caption?.[0]?.["plain_text"] ?? "";
       const isYoutube = videoUrl.includes("youtube");
-      
+
       const youtubeVideoId = isYoutube
         ? new URLSearchParams(new URL(videoUrl).search).get("v")
         : "";
@@ -126,11 +133,9 @@ export const PageBlock: React.FC<Props> = ({ block }): JSX.Element => {
             handleTextClick(block);
           }}
           ariaLabel="Add copy to design"
-          onDragStart={() =>
-            handleTextDragStart(block)
-          }
+          onDragStart={() => handleTextDragStart(block)}
         >
-          <Text lineClamp={2}>{block[NotionBlock.EQUATION]['expression']}</Text>
+          <Text lineClamp={2}>{block[NotionBlock.EQUATION]["expression"]}</Text>
         </TypographyCard>
       );
     }
@@ -139,14 +144,16 @@ export const PageBlock: React.FC<Props> = ({ block }): JSX.Element => {
         <TypographyCard
           badgeTone={badgeTone}
           badgeText={badgeText}
-          badgeTooltipLabel={!isBlockSupported ? "This block is currently unsupported and may not function as intended." : undefined}
+          badgeTooltipLabel={
+            !isBlockSupported
+              ? "This block is currently unsupported and may not function as intended."
+              : undefined
+          }
           onClick={() => {
             handleTextClick(block);
           }}
           ariaLabel="Add copy to design"
-          onDragStart={() =>
-            handleTextDragStart(block)
-          }
+          onDragStart={() => handleTextDragStart(block)}
         >
           <Text lineClamp={2}>{concatenatedPlainText}</Text>
         </TypographyCard>

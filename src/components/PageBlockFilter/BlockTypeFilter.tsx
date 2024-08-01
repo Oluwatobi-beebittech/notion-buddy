@@ -5,6 +5,10 @@ import { HumanFriendlyBlockName } from "src/utilities";
 
 import type { State } from "src/store";
 
+type FilterOptions = {
+  label: string;
+  value: string;
+};
 
 type Props = {
   disabled: boolean;
@@ -16,7 +20,7 @@ export const BlockTypeFilter: React.FC<Props> = ({
 }) => {
   const { notionDetails } = useNotionBuddyStore<State>((state) => state);
   const { pageBlocks, selectedBlockType, setNotionDetails } = notionDetails;
-  const [filterOptions, setFilterOptions] = React.useState<any>([]);
+  const [filterOptions, setFilterOptions] = React.useState<FilterOptions[]>([]);
 
   React.useEffect(() => {
     const hasPageBlocksLoaded: boolean =

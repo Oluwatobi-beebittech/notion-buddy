@@ -50,7 +50,8 @@ export const Dashboard: React.FC = (): JSX.Element => {
           setNotionDetails({
             blockSearchQuery: "",
             selectedPage: "",
-            selectedBlockType: "all"
+            selectedBlockType: "all",
+            showEmptyBlocks: true,
           })
         }
         selectedPage={selectedPage}

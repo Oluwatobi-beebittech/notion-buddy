@@ -1,9 +1,11 @@
+import type { Annotations, EquationBlockType, EquationType, PageBlockType, RichTextType, TextType } from "src/api";
+
 import { colour } from "./Colours";
 import { NotionBlock } from "./Enums";
 
 const applyRichTextFormatting = (
-  textConfig: any,
-  textAnnotations: any,
+  textConfig: TextType & EquationType,
+  textAnnotations: Annotations,
   additionalFormattingOptions = {}
 ) => {
   const { content, expression, link } = textConfig;
@@ -14,7 +16,7 @@ const applyRichTextFormatting = (
 
   const formattingOptions = {
     color: colour[color],
-    ...(hasLink && { link: link.url }),
+    ...(hasLink && { link: link?.url }),
     ...(bold && { fontWeight: "bold" }),
     ...(italic && { fontStyle: "italic" }),
     ...(underline && { decoration: "underline" }),
@@ -25,11 +27,11 @@ const applyRichTextFormatting = (
   return { text: content ?? expression, formatting: formattingOptions };
 };
 
-const defaultAnnotation = { color: "default" };
+const defaultAnnotation: Partial<Annotations> = { color: "default" };
 
 const getRichTextRange = (
-  richTextCollection,
-  additionalFormattinOptions = {}
+  richTextCollection: RichTextType[] | EquationBlockType[],
+  additionalFormattingOptions = {}
 ) => {
   return {
     readTextRegions: () =>
@@ -38,19 +40,19 @@ const getRichTextRange = (
           applyRichTextFormatting(
             richText[richText.type],
             richText?.annotations ?? defaultAnnotation,
-            additionalFormattinOptions
+            additionalFormattingOptions
           )
         )
         .filter((richTextConfig) => typeof richTextConfig !== "undefined"),
   };
 };
 
-export const generateRichTextRange = (block: any) => {
+export const generateRichTextRange = (block: PageBlockType['results'][number]) => {
   const richTextCollection = block[block.type]["rich_text"] ?? [];
 
   switch (block.type) {
     case NotionBlock.EQUATION: {
-      return getRichTextRange([block]);
+      return getRichTextRange([block] as RichTextType[] | EquationBlockType[]);
     }
     case NotionBlock.TO_DO: {
       const listMarker = block[NotionBlock.TO_DO]["checked"]

@@ -1,7 +1,9 @@
+import type { PageBlockType } from "src/api";
+
 type PageBlockFilters = {
-    all: any[];
-    [key: string]: any[];
-    unsupported: any[];
+    all: PageBlockType['results'];
+    [key: string]: PageBlockType['results'];
+    unsupported: PageBlockType['results'];
 }
 
 type PageBlocks = Record<string, PageBlockFilters>
