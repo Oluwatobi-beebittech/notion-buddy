@@ -12,16 +12,22 @@ import {
 import * as React from "react";
 import { getAllPages } from "src/api";
 import { PageCards, PageWrapper } from "src/components";
-import { useNotionBuddyStore } from "src/store"
+import { useNotionBuddyStore } from "src/store";
 
 import type { State } from "src/store";
-
 
 import { Page } from "./Page";
 import { Settings } from "./Settings";
 
 export const Dashboard: React.FC = (): JSX.Element => {
   const [showAlert, setShowAlert] = React.useState<boolean>(true);
+  const [errorConfig, setErrorConfig] = React.useState<{
+    hasError: boolean;
+    message: string;
+  }>({
+    hasError: false,
+    message: "",
+  });
   const { userDetails, notionDetails } = useNotionBuddyStore<State>(
     (state) => state
   );
@@ -29,14 +35,22 @@ export const Dashboard: React.FC = (): JSX.Element => {
   const { canvaUserToken, userId } = userDetails;
 
   const getPages = async () => {
-    const response = await getAllPages(
-      JSON.stringify({ userId }),
-      canvaUserToken
-    );
-    setNotionDetails({
-      pages: response.results,
-      totalPages: response.results.length,
-    });
+    try {
+      const response = await getAllPages(
+        JSON.stringify({ userId }),
+        canvaUserToken
+      );
+      setNotionDetails({
+        pages: response.results,
+        totalPages: response.results.length,
+      });
+    } catch (error: any) {
+      const { message, internalStatusCode } = JSON.parse(error?.message);
+      setErrorConfig({
+        hasError: true,
+        message: `${internalStatusCode} - ${message}`,
+      });
+    }
   };
 
   React.useEffect(() => {
@@ -70,6 +84,19 @@ export const Dashboard: React.FC = (): JSX.Element => {
             }}
           >
             You are now connected to Notion
+          </Alert>
+        )}
+        {errorConfig.hasError && (
+          <Alert
+            tone="critical"
+            onDismiss={() => {
+              setErrorConfig({
+                hasError: false,
+                message: "",
+              });
+            }}
+          >
+            {errorConfig.message}
           </Alert>
         )}
 
