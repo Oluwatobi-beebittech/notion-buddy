@@ -26,7 +26,7 @@ export const ImageCard: React.FC<Props> = ({
   onDragStart,
   thumbnailUrl
 }) => {
-  console.log({imageCard: "Image card"});
+  
   return (
     <Box className={styles.imageCard}>
       <Box className={styles.actionRow}>

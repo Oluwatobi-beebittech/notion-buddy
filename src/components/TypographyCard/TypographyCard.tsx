@@ -1,9 +1,7 @@
 import {
   Badge,
   Box,
-  Button,
   TypographyCard as CanvaTypographyCard,
-  GridIcon,
 } from "@canva/app-ui-kit";
 import * as React from "react";
 
@@ -16,7 +14,6 @@ type Props = TypographyCardProps & {
   badgeText: string;
   badgeTone: Tone;
   badgeTooltipLabel?: string | undefined;
-  loading?: boolean | undefined;
 };
 export const TypographyCard: React.FC<Props> = ({
   ariaLabel,
@@ -24,7 +21,6 @@ export const TypographyCard: React.FC<Props> = ({
   badgeTone,
   badgeTooltipLabel,
   children,
-  loading,
   onClick,
   onDragStart,
 }) => {
@@ -36,15 +32,6 @@ export const TypographyCard: React.FC<Props> = ({
           text={badgeText}
           tooltipLabel={badgeTooltipLabel}
         />
-        <Box className={styles.groupButton}>
-          {/* <Button
-            icon={GridIcon}
-            onClick={() => {}}
-            variant="tertiary"
-            tooltipLabel="Group items"
-            disabled={loading}
-          /> */}
-        </Box>
       </Box>
       <CanvaTypographyCard
         ariaLabel={ariaLabel}

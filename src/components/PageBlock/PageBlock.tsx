@@ -1,19 +1,19 @@
 import { Text } from "@canva/app-ui-kit";
 import * as React from "react";
-import { defaultImagePlaceholder } from "src/utilities";
 import {
-  HumanFriendlyBlockName,
-  NotionBlock,
-  NotionBlockBadgeColour,
-  SupportedNotionBlocks,
+  defaultImagePlaceholder,
   handleAudioClick,
   handleAudioDragStart,
+  handleImageClick,
+  handleImageDragStart,
   handleTextClick,
   handleTextDragStart,
   handleVideoClick,
   handleVideoDragStart,
-  handleImageClick,
-  handleImageDragStart,
+  HumanFriendlyBlockName,
+  NotionBlock,
+  NotionBlockBadgeColour,
+  SupportedNotionBlocks,
 } from "src/utilities";
 
 import { AudioCard } from "../AudioCard";
@@ -46,7 +46,6 @@ export const PageBlock: React.FC<Props> = ({ block }): JSX.Element => {
         audioConfig.caption?.[0]?.["plain_text"] ?? "";
       const audioUrl = audioConfig[audioType]["url"];
 
-      console.log({ block });
       return (
         <AudioCard
           audioPreviewUrl={audioUrl}
@@ -55,7 +54,7 @@ export const PageBlock: React.FC<Props> = ({ block }): JSX.Element => {
           badgeTone={badgeTone}
           thumbnailUrl={defaultImagePlaceholder}
           badgeText={badgeText}
-          ariaLabel="Hello world"
+          ariaLabel="Add audio to design"
           onClick={() => handleAudioClick(audioUrl)}
           onDragStart={(event: React.DragEvent<HTMLElement>) =>
             handleAudioDragStart(event, audioUrl)
@@ -67,7 +66,6 @@ export const PageBlock: React.FC<Props> = ({ block }): JSX.Element => {
       const imageConfig = block[NotionBlock.IMAGE];
       const imageType = imageConfig.type;
 
-      console.log({ block });
       return (
         <ImageCard
           badgeTone={badgeTone}
@@ -76,7 +74,7 @@ export const PageBlock: React.FC<Props> = ({ block }): JSX.Element => {
           onClick={() => {
             handleImageClick(imageConfig[imageType]["url"]);
           }}
-          ariaLabel="Hello world"
+          ariaLabel="Add image to design"
           onDragStart={(event: React.DragEvent<HTMLElement>) =>
             handleImageDragStart(event, imageConfig[imageType]["url"])
           }
@@ -90,7 +88,7 @@ export const PageBlock: React.FC<Props> = ({ block }): JSX.Element => {
       const videoCaption: string =
         videoConfig.caption?.[0]?.["plain_text"] ?? "";
       const isYoutube = videoUrl.includes("youtube");
-      console.log({ videoUrl });
+      
       const youtubeVideoId = isYoutube
         ? new URLSearchParams(new URL(videoUrl).search).get("v")
         : "";
@@ -101,7 +99,6 @@ export const PageBlock: React.FC<Props> = ({ block }): JSX.Element => {
         ? `https://www.youtube.com/embed/${youtubeVideoId}?start=30&end=38`
         : "";
 
-      console.log({ block });
       return (
         <VideoCard
           badgeText={badgeText}
@@ -111,8 +108,8 @@ export const PageBlock: React.FC<Props> = ({ block }): JSX.Element => {
           mimeType="video/webm"
           thumbnailUrl={thumbnailUrl}
           videoPreviewUrl={videoPreviewUrl}
-          onClick={() => handleVideoClick(thumbnailUrl, videoUrl, videoUrl)}
-          ariaLabel="Hello world"
+          onClick={() => handleVideoClick(videoUrl)}
+          ariaLabel="Add video embed to design"
           onDragStart={(event: React.DragEvent<HTMLElement>) =>
             handleVideoDragStart(event, thumbnailUrl, videoUrl, videoUrl)
           }
@@ -124,10 +121,11 @@ export const PageBlock: React.FC<Props> = ({ block }): JSX.Element => {
         <TypographyCard
           badgeTone={badgeTone}
           badgeText={badgeText}
+          badgeTooltipLabel="This block is currently unsupported and may not function as intended."
           onClick={() => {
             handleTextClick(block);
           }}
-          ariaLabel="Hello world"
+          ariaLabel="Add copy to design"
           onDragStart={() =>
             handleTextDragStart(block)
           }
@@ -141,10 +139,11 @@ export const PageBlock: React.FC<Props> = ({ block }): JSX.Element => {
         <TypographyCard
           badgeTone={badgeTone}
           badgeText={badgeText}
+          badgeTooltipLabel={!isBlockSupported ? "This block is currently unsupported and may not function as intended." : undefined}
           onClick={() => {
             handleTextClick(block);
           }}
-          ariaLabel="Hello world"
+          ariaLabel="Add copy to design"
           onDragStart={() =>
             handleTextDragStart(block)
           }

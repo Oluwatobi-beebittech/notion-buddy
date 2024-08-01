@@ -29,7 +29,7 @@ const GET = async <T>(url: string, request: RequestInit | undefined = {
 			...defaultHeaders,
 			...headers
 		},
-		...request,
+		...rest,
 	});
 
 	return response;
@@ -52,6 +52,21 @@ const POST = async <T>(url: string, data: string, request: RequestInit | undefin
 	return response;
 };
 
+const DELETE = async <T>(url: string, request: RequestInit | undefined = {
+}): Promise<T> => {
+	const { headers, ...rest } = request;
+	const response = await sendRequest<T>(url, {
+		method: 'DELETE',
+		headers: {
+			...defaultHeaders,
+			...headers
+		},
+		...rest,
+	});
+
+	return response;
+};
+
 export const API = {
-	GET, POST,
+	DELETE, GET, POST,
 };

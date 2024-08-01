@@ -15,7 +15,6 @@ export const PageCard: React.FC<Props> = ({
   thumbnailUrl,
   title,
 }) => {
-  const x = 0;
 
   return (
     <div

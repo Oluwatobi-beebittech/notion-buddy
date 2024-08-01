@@ -1,7 +1,8 @@
-import "dotenv/config";
-
 import * as fs from "fs";
 import * as path from "path";
+
+import "dotenv/config";
+
 
 type CliArgs = {
   example?: string;

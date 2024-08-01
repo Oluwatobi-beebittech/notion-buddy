@@ -1,4 +1,4 @@
-const darkModeColours = {
+export const darkModeColours = {
     gray: '#9b9b9b',
     brown: '#ba856f',
     orange: '#c77d48',

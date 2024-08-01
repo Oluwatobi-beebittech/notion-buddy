@@ -38,16 +38,8 @@ export const PageCards: React.FC<Props> = ({
           const { title } = searchProperty(page, "type", "title");
           const iconType = icon?.type;
           const isIconEmoji = iconType?.toLowerCase() === "emoji";
-          const iconImageUrl = icon?.[icon?.type]?.["url"];
-          const isIconImage = Boolean(iconImageUrl);
-
-          let displayIcon: string | React.ReactNode = "";
-          if (isIconEmoji) displayIcon = icon[iconType];
-          if (isIconImage)
-            displayIcon = (
-              <img src={icon[iconType]["url"]} width={20} height={20} />
-            );
-
+          const displayIcon = isIconEmoji ? icon[iconType] : '';
+        
           return (
             <PageCard
               icon={displayIcon}

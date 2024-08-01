@@ -1,4 +1,4 @@
-import { Box, Rows, Select, Text } from "@canva/app-ui-kit";
+import { Rows, Select, Text } from "@canva/app-ui-kit";
 import * as React from "react";
 import { useNotionBuddyStore } from "src/store";
 import { HumanFriendlyBlockName } from "src/utilities";

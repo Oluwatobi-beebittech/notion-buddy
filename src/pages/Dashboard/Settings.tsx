@@ -15,6 +15,8 @@ import { getDesignToken } from "@canva/design";
 import { requestOpenExternalUrl } from "@canva/platform";
 import * as React from "react";
 import { saveDesignId } from "src/api";
+import { disconnectFromNotion } from "src/api";
+import { App } from "src/app";
 import { PageWrapper } from "src/components";
 import { useNotionBuddyStore } from "src/store";
 
@@ -27,14 +29,34 @@ export const Settings: React.FC = (): JSX.Element => {
   const [isFlyoutOpen, setIsFlyoutOpen] = React.useState<boolean>(false);
   const [isKeepSelectedAlertOpen, setIsKeepSelectedAlertOpen] =
     React.useState<boolean>(false);
+  const [isDisconnecting, setIsDisconnecting] = React.useState<boolean>(false);
+  const [isDisconnectionSuccessful, setIsDisconnectionSuccessful] = React.useState<boolean>(false);
   const { setDesignDetails } = designDetails;
-  const { userId } = userDetails;
+  const { canvaUserToken, userId, setUserDetails } = userDetails;
   const [isUpdateNotionConnectionLoading, setIsUpdateNotionConnectionLoading] =
     React.useState<boolean>(false);
 
   const notionBuddyConnectionUrl: string = userId
     ? `${BACKEND_HOST}/api/v1/notionbuddy/oauth/connect?u=${userId}`
     : "";
+
+  const disconnect = async () => {
+    setIsDisconnecting(true);
+    try {
+      await disconnectFromNotion(userId, canvaUserToken);
+      setUserDetails({
+        canvaUserToken: '',
+        userId: '',
+        isNotionAccessTokenValid: false,
+        hasNotionAccessToken: false,
+      });
+      setIsDisconnecting(false);
+      setIsDisconnectionSuccessful(true);
+    } catch (error) {
+      setIsDisconnecting(false);
+      setIsDisconnectionSuccessful(false);
+    }
+  };
 
   async function handleClick() {
     setIsUpdateNotionConnectionLoading(true);
@@ -56,6 +78,10 @@ export const Settings: React.FC = (): JSX.Element => {
     setIsKeepSelectedAlertOpen(true);
     setTimeout(() => setIsKeepSelectedAlertOpen(false), 15000);
   };
+
+  if(isDisconnectionSuccessful){
+    return (<App />);
+  }
 
   return (
     <PageWrapper>
@@ -88,13 +114,16 @@ export const Settings: React.FC = (): JSX.Element => {
                     onClick={keepNotionConnection}
                     stretch
                     variant="secondary"
+                    disabled={isDisconnecting}
                   >
                     Keep
                   </Button>
                 </Column>
                 <Column>
                   <Button
-                    onClick={() => {}}
+                    onClick={disconnect}
+                    disabled={isDisconnecting}
+                    loading={isDisconnecting}
                     stretch
                     variant="primary"
                     icon={TrashIcon}
@@ -115,6 +144,7 @@ export const Settings: React.FC = (): JSX.Element => {
             />
           }
           onRequestClose={() => {
+            if (isDisconnecting) return;
             setIsFlyoutOpen(false);
           }}
           placement="bottom-start"

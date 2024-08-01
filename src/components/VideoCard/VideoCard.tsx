@@ -1,6 +1,5 @@
 import { Badge, Box, VideoCard as CanvaVideoCard } from "@canva/app-ui-kit";
 import * as React from "react";
-import { getResourceMimeType } from "src/api";
 
 import type { Tone } from "@canva/app-ui-kit/dist/cjs/ui/apps/developing/ui_kit/components/badge/badge";
 import type { VideoCardProps } from "@canva/app-ui-kit/dist/cjs/ui/apps/developing/ui_kit/components/card/video/video";
@@ -27,25 +26,8 @@ export const VideoCard: React.FC<Props> = ({
   onClick,
   onDragStart,
   thumbnailUrl,
-  videoUrl,
   videoPreviewUrl
 }) => {
-  const [videoMimeType, setVideoMimeType] = React.useState<any>(mimeType);
-  const [isVideoLoading, setIsVideoLoading] = React.useState<
-    boolean
-  >(true);
-
-  const getMimeType = async () => {
-    const mimeType = await getResourceMimeType(videoUrl);
-    setVideoMimeType(mimeType);
-    setIsVideoLoading(false);
-  };
-
-  // React.useEffect(() => {
-  //   getMimeType();
-  // }, []);
-
-  console.log({videoMimeType});
   
   return (
     <Box className={styles.videoCard}>
@@ -55,20 +37,10 @@ export const VideoCard: React.FC<Props> = ({
           text={badgeText}
           tooltipLabel={badgeTooltipLabel}
         />
-        <Box className={styles.groupButton}>
-          {/* <Button
-            icon={GridIcon}
-            onClick={() => {}}
-            variant="tertiary"
-            tooltipLabel="Group items"
-            disabled={loading}
-          /> */}
-        </Box>
       </Box>
       <CanvaVideoCard
         borderRadius="standard"
-        //bottomEnd={<Badge text={videoMimeType.split("/")[1]} tone="contrast" />}
-        mimeType={videoMimeType}
+        mimeType={mimeType as any}
         videoPreviewUrl={videoPreviewUrl}
         durationInSeconds={8}
         loading={loading}

@@ -5,7 +5,6 @@ import {
   AudioCard as CanvaAudioCard,
 } from "@canva/app-ui-kit";
 import * as React from "react";
-import { getResourceMimeType } from "src/api";
 
 import type { Tone } from "@canva/app-ui-kit/dist/cjs/ui/apps/developing/ui_kit/components/badge/badge";
 import type { AudioCardProps } from "@canva/app-ui-kit/dist/cjs/ui/apps/developing/ui_kit/components/card/audio/audio";
@@ -31,22 +30,6 @@ export const AudioCard: React.FC<Props> = ({
   thumbnailUrl,
   title,
 }) => {
-  const [audioMimeType, setAudioMimeType] = React.useState<any>('audio/wav');
-  const [isAudioLoading, setIsAudioLoading] = React.useState<
-    boolean
-  >(true);
-
-  const getMimeType = async () => {
-    const mimeType = await getResourceMimeType(audioPreviewUrl);
-    setAudioMimeType(mimeType);
-    setIsAudioLoading(false);
-  };
-
-  // React.useEffect(() => {
-  //   getMimeType();
-  // }, []);
-
-  console.log({audioM: audioMimeType});
 
   return (
     <Box className={styles.audioCard}>
@@ -56,19 +39,9 @@ export const AudioCard: React.FC<Props> = ({
           text={badgeText}
           tooltipLabel={badgeTooltipLabel}
         />
-        <Box className={styles.groupButton}>
-          {/* <Button
-            icon={GridIcon}
-            onClick={() => {}}
-            variant="tertiary"
-            tooltipLabel="Group items"
-            disabled={loading}
-          /> */}
-        </Box>
       </Box>
       <AudioContextProvider>
         <CanvaAudioCard
-        // bottomEnd={<Badge text={audioMimeType.split("/")[1]} tone="contrast" />}
           title={title}
           durationInSeconds={durationInSeconds}
           audioPreviewUrl={audioPreviewUrl}

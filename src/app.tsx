@@ -9,10 +9,9 @@ import { PageWrapper } from "./components";
 import { Connection404, ConnectToNotion, Dashboard } from "./pages";
 import { useNotionBuddyStore } from "./store";
 
-export const App = () => {
+export const App: React.FC = (): JSX.Element => {
   const { userDetails} = useNotionBuddyStore<State>((state) => state);
   const {userId, hasNotionAccessToken, isNotionAccessTokenValid, setUserDetails} =  userDetails;
-
   const [progress, setProgress] = React.useState<number>(0);
 
   const initialiseUser = async () => {
@@ -37,7 +36,7 @@ export const App = () => {
 
   React.useEffect(() => {
     initialiseUser();
-  }, []);
+  }, [hasNotionAccessToken, isNotionAccessTokenValid]);
 
   const isUserRegistered = Boolean(userId);
 

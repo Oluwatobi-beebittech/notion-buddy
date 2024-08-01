@@ -13,5 +13,5 @@ export const verifyNotionConnection = async (
     },
   };
 
-  return await API.POST(url, verifyConnectionDto, additionalRequestConfig);
+  return API.POST(url, verifyConnectionDto, additionalRequestConfig);
 };

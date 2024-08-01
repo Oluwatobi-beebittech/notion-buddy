@@ -1,22 +1,8 @@
-import { upload } from "@canva/asset";
 import { addNativeElement, ui } from "@canva/design";
 
 export const handleVideoClick = async (
-  thumbnailImageUrl: string,
-  videoPreviewUrl: string,
   videoUrl: string
 ) => {
-  console.log({ thumbnailImageUrl, videoPreviewUrl, videoUrl });
-//   const videoAsset = await upload({
-//     mimeType: "video/mp4",
-//     thumbnailImageUrl,
-//     thumbnailVideoUrl: videoPreviewUrl,
-//     type: "VIDEO",
-//     url: videoUrl,
-//     width: 320,
-//     height: 180,
-//   });
-
   addNativeElement({
     type: "EMBED",
     url: videoUrl,

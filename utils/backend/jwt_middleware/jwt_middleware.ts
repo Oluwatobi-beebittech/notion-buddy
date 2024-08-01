@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 import * as chalk from "chalk";
 import * as debug from "debug";
-import Express from "express-serve-static-core";
 import * as jwt from "jsonwebtoken";
 import { JwksClient, SigningKeyNotFoundError } from "jwks-rsa";
 

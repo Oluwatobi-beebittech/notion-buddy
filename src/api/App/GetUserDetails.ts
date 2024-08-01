@@ -10,5 +10,5 @@ export const getUserDetails = async (canvaUserToken : string): Promise<UserDetai
           }
     };
     
-    return await API.POST(url, '', additionalRequestConfig);
+    return API.POST(url, '', additionalRequestConfig);
 }

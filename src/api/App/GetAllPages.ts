@@ -1,6 +1,6 @@
 import { API } from '../Client';
 
-export const getAllPages = async (getAllPagesDto: string, canvaUserToken: string): Promise<any> => {
+export const getAllPages = (getAllPagesDto: string, canvaUserToken: string): Promise<any> => {
     const url = `${BACKEND_HOST}/api/v1/notionbuddy/notion/pages`;
     const additionalRequestConfig: RequestInit = {
         headers: {
@@ -8,6 +8,6 @@ export const getAllPages = async (getAllPagesDto: string, canvaUserToken: string
           }
     };
 
-    return await API.POST(url, getAllPagesDto, additionalRequestConfig);
+    return API.POST(url, getAllPagesDto, additionalRequestConfig);
 
 }

@@ -1,3 +1,4 @@
+export * from './DisconnectFromNotion';
 export * from './GetAllPages';
 export * from './GetPageBlocks';
 export * from './GetResourceMimeType';
