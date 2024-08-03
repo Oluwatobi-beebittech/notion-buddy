@@ -1,18 +1,9 @@
-import { defaultHeaders } from "../Client";
+import {fileTypeFromStream} from 'file-type';
 
-export const getResourceMimeType = async (url: string): Promise<any> => {
-    const response = await fetch(url, { 
-        method: 'HEAD',
-        headers: {
-            ...defaultHeaders,
-            'Access-Control-Allow-Origin': '*'
-        }
-     });
+import type { MimeType } from 'file-type';
 
-    if (response.ok) {
-      // Get the Content-Type header from the response
-      const contentType = response.headers.get('Content-Type');
-        return contentType ?? 'Unknown type';
-      }
-      return 'Unknown type';
+export const getResourceMimeType = async (url: string): Promise<MimeType | undefined> => {
+  const response = await fetch(url);
+  const fileType = await fileTypeFromStream(response.body as any);
+  return fileType?.mime;
 }

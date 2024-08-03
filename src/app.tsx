@@ -10,9 +10,15 @@ import { Connection404, ConnectToNotion, Dashboard } from "./pages";
 import { useNotionBuddyStore } from "./store";
 
 export const App: React.FC = (): JSX.Element => {
-  const { userDetails} = useNotionBuddyStore<State>((state) => state);
-  const {userId, hasNotionAccessToken, isNotionAccessTokenValid, setUserDetails} =  userDetails;
+  const { userDetails } = useNotionBuddyStore<State>((state) => state);
+  const {
+    userId,
+    hasNotionAccessToken,
+    isNotionAccessTokenValid,
+    setUserDetails,
+  } = userDetails;
   const [progress, setProgress] = React.useState<number>(0);
+  const [connectionErrorMessage, setConnectionErrorMessage] = React.useState<string>("");
 
   const initialiseUser = async () => {
     setProgress(50);
@@ -22,16 +28,34 @@ export const App: React.FC = (): JSX.Element => {
     const { hasNotionAccessToken, userId } = responseUserDetails;
 
     if (!hasNotionAccessToken) {
-      setUserDetails({...responseUserDetails, canvaUserToken: userToken});
+      setUserDetails({ ...responseUserDetails, canvaUserToken: userToken });
       setProgress(100);
       return;
     }
 
     setProgress(75);
-    const { isNotionAccessTokenValid } = await verifyNotionConnection(JSON.stringify({ userId }), userToken);
+    try {
+      const { isNotionAccessTokenValid } = await verifyNotionConnection(
+        JSON.stringify({ userId }),
+        userToken
+      );
 
-    setProgress(100);
-    setUserDetails({...responseUserDetails, canvaUserToken: userToken, isNotionAccessTokenValid });
+      setProgress(100);
+      setUserDetails({
+        ...responseUserDetails,
+        canvaUserToken: userToken,
+        isNotionAccessTokenValid,
+      });
+    } catch (error: any) {
+      const { message, internalStatusCode } = JSON.parse(error?.message);
+      
+      setConnectionErrorMessage(`${message} (${internalStatusCode})`);
+      setUserDetails({
+        ...responseUserDetails,
+        hasNotionAccessToken: true,
+        isNotionAccessTokenValid: false,
+      });
+    }
   };
 
   React.useEffect(() => {
@@ -49,7 +73,7 @@ export const App: React.FC = (): JSX.Element => {
   }
 
   if (isUserRegistered && hasNotionAccessToken && !isNotionAccessTokenValid) {
-    return <Connection404 />;
+    return <Connection404 errorMessage={connectionErrorMessage} />;
   }
 
   return (
@@ -59,8 +83,8 @@ export const App: React.FC = (): JSX.Element => {
           We are authenticating your account
         </Title>
         <Text>
-          Once authenticated, you will be able to connect and use your Notion
-          page content.
+          After authentication, you will have the ability to connect and utilize
+          your Notion page content.
         </Text>
 
         <ProgressBar size="medium" tone="info" value={progress} />

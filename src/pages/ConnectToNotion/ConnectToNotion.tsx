@@ -42,8 +42,8 @@ export const ConnectToNotion: React.FC = (): JSX.Element => {
           Get started by connecting your account
         </Title>
         <Text>
-          You will be able to import text content from Notion pages when you
-          connect to Notion.
+          You will have the capability to import text content from Notion pages
+          once you establish a connection with Notion.
         </Text>
         <Button
           variant="primary"

@@ -1,11 +1,15 @@
 import { upload } from "@canva/asset";
 import { addAudioTrack, ui } from "@canva/design";
 
-export const handleAudioClick = async (audioUrl: string) => {
+import type { AudioMimeType} from "@canva/asset";
+
+export const handleAudioClick = async (audioUrl: string, mimeType: AudioMimeType) => {
+  if(mimeType.toString() === "") return;
+  
     const audioAsset = await upload({
       type: "AUDIO",
-      title: "Example audio",
-      mimeType: "audio/mp3",
+      title: "Superbuddy uploaded audio",
+      mimeType,
       durationMs: 86047,
       url: audioUrl,
     });
@@ -15,16 +19,18 @@ export const handleAudioClick = async (audioUrl: string) => {
     });
   }
 
-  export const handleAudioDragStart = (event: React.DragEvent<HTMLElement>, audioUrl: string) => {
+  export const handleAudioDragStart = (event: React.DragEvent<HTMLElement>, audioUrl: string, mimeType: AudioMimeType) => {
+    if(mimeType.toString() === "") return;
+
     ui.startDrag(event, {
       type: "AUDIO",
-      title: "Example audio",
+      title: "Superbuddy uploaded audio",
       durationMs: 86047,
       resolveAudioRef: () => {
         return upload({
           type: "AUDIO",
-          title: "Example audio",
-          mimeType: "audio/mp3",
+          title: "Superbuddy uploaded audio",
+          mimeType,
           durationMs: 86047,
           url: audioUrl,
         });

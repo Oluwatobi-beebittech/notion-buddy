@@ -1,4 +1,4 @@
-import { Button, Rows, Text, Title } from "@canva/app-ui-kit";
+import { Alert, Button, Rows, Text, Title } from "@canva/app-ui-kit";
 import { getDesignToken } from "@canva/design";
 import { requestOpenExternalUrl } from "@canva/platform";
 import * as React from "react";
@@ -8,13 +8,26 @@ import { useNotionBuddyStore } from "src/store";
 
 import type { State } from "src/store";
 
-export const Connection404: React.FC = (): JSX.Element => {
+type Props = {
+  errorMessage?: string | undefined;
+};
+export const Connection404: React.FC<Props> = ({
+  errorMessage,
+}): JSX.Element => {
   const { designDetails, userDetails } = useNotionBuddyStore<State>(
     (state) => state
   );
   const { setDesignDetails } = designDetails;
   const { userId } = userDetails;
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [isErrorAlertVisible, setIsErrorAlertVisible] = React.useState<boolean>(
+    Boolean(errorMessage)
+  );
+
+  React.useEffect(() => {
+    if (isErrorAlertVisible === Boolean(errorMessage)) return;
+    setIsErrorAlertVisible(true);
+  }, [errorMessage]);
 
   const notionBuddyConnectionUrl: string = userId
     ? `${BACKEND_HOST}/api/v1/notionbuddy/oauth/connect?u=${userId}`
@@ -39,8 +52,16 @@ export const Connection404: React.FC = (): JSX.Element => {
     <PageWrapper>
       <Rows spacing="3u">
         <Title tone="primary" size="medium" alignment="center">
-          Connection to your Notion account failed
+          Connection to your Notion account was unsuccessful
         </Title>
+        {isErrorAlertVisible && (
+          <Alert
+            tone="critical"
+            onDismiss={() => setIsErrorAlertVisible(false)}
+          >
+            {errorMessage}
+          </Alert>
+        )}
         <Text>
           Sorry, we couldn't establish a connection to your Notion account.
           Please try reconnecting to Notion.

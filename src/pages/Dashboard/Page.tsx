@@ -19,9 +19,10 @@ import { SupportedNotionBlocks } from "src/utilities";
 
 import type { PageBlockType } from "src/api";
 import type { State } from "src/store";
-import type { NotionBlock} from "src/utilities";
+import type { NotionBlock } from "src/utilities";
 
 import styles from "./Page.css";
+import { Connection404 } from "../Connection404";
 
 type Props = {
   onBack: () => void;
@@ -44,63 +45,79 @@ export const Page: React.FC<Props> = ({
   } = notionDetails;
   const [isPageBlocksReloading, setIsPageBlocksReloading] =
     React.useState<boolean>(false);
+  const [connectionErrorMessage, setConnectionErrorMessage] =
+    React.useState<string>("");
 
   const getPageContent = async () => {
-    const { results } = await getPageBlocks(selectedPage, canvaUserToken);
-    const uniqueBlockTypes: NotionBlock[] = Array.from(
-      new Set(results.map(({ type }) => type))
-    );
-    let pageBlockFilters = {};
-    uniqueBlockTypes.forEach((blockType) => {
-      const blockTypeCollection = results.filter(
-        ({ type }) => type === blockType
+    try {
+      const { results } = await getPageBlocks(selectedPage, canvaUserToken);
+      const uniqueBlockTypes: NotionBlock[] = Array.from(
+        new Set(results.map(({ type }) => type))
       );
-      pageBlockFilters = {
-        ...pageBlockFilters,
-        [blockType]: blockTypeCollection,
-      };
-    });
+      let pageBlockFilters = {};
+      uniqueBlockTypes.forEach((blockType) => {
+        const blockTypeCollection = results.filter(
+          ({ type }) => type === blockType
+        );
+        pageBlockFilters = {
+          ...pageBlockFilters,
+          [blockType]: blockTypeCollection,
+        };
+      });
 
-    const unsupportedBlocks: PageBlockType['results'] = results.filter(
-      ({ type }) => !SupportedNotionBlocks.includes(type)
-    );
+      const unsupportedBlocks: PageBlockType["results"] = results.filter(
+        ({ type }) => !SupportedNotionBlocks.includes(type)
+      );
 
-    setNotionPageBlocks({
-      [selectedPage]: {
-        all: results,
-        ...pageBlockFilters,
-        unsupported: unsupportedBlocks,
-      },
-    });
-    setIsPageBlocksReloading(false);
+      setNotionPageBlocks({
+        [selectedPage]: {
+          all: results,
+          ...pageBlockFilters,
+          unsupported: unsupportedBlocks,
+        },
+      });
+      setIsPageBlocksReloading(false);
+    } catch (error: any) {
+      const { message, internalStatusCode } = JSON.parse(error?.message);
+      setConnectionErrorMessage(`${message} (${internalStatusCode})`);
+      setIsPageBlocksReloading(false);
+    }
   };
 
   const hasBlocks: boolean = Object.keys(pageBlocks).includes(selectedPage);
   const isLoading: boolean = !hasBlocks || isPageBlocksReloading;
 
   const getPageBlocksByFilters = React.useCallback(() => {
-    if(isLoading) return [];
+    if (isLoading) return [];
 
     const selectedPageBlocks = pageBlocks[selectedPage][selectedBlockType];
     if (blockSearchQuery === "") {
-      return selectedPageBlocks.filter((block) =>{
-        const plainText: string | undefined = block[block.type]["rich_text"]?.[0]?.["plain_text"];
-        const equationExpression: string | undefined = block[block.type]?.["expression"];
-        const isTypographyBlockEmpty = plainText === "" || plainText === undefined;
-        const isEquationBlockEmpty = equationExpression === "" || equationExpression === undefined;
-        
+      return selectedPageBlocks.filter((block) => {
+        const plainText: string | undefined =
+          block[block.type]["rich_text"]?.[0]?.["plain_text"];
+        const equationExpression: string | undefined =
+          block[block.type]?.["expression"];
+        const isTypographyBlockEmpty =
+          plainText === "" || plainText === undefined;
+        const isEquationBlockEmpty =
+          equationExpression === "" || equationExpression === undefined;
+
         return showEmptyBlocks
           ? true
-          : !isTypographyBlockEmpty || !isEquationBlockEmpty}
-      );
+          : !isTypographyBlockEmpty || !isEquationBlockEmpty;
+      });
     }
 
     return selectedPageBlocks.filter((block) => {
       const blockText: string | undefined =
         block[block.type]["rich_text"]?.[0]?.["plain_text"]?.toLowerCase();
-        const equationBlockText: string | undefined = block[block.type]?.["expression"]?.toLowerCase();
+      const equationBlockText: string | undefined =
+        block[block.type]?.["expression"]?.toLowerCase();
 
-      return blockText?.includes(blockSearchQuery.toLowerCase()) || equationBlockText?.includes(blockSearchQuery.toLowerCase());
+      return (
+        blockText?.includes(blockSearchQuery.toLowerCase()) ||
+        equationBlockText?.includes(blockSearchQuery.toLowerCase())
+      );
     });
   }, [blockSearchQuery, showEmptyBlocks, isLoading, selectedBlockType]);
 
@@ -110,8 +127,13 @@ export const Page: React.FC<Props> = ({
   }, []);
 
   const currentPageContentBlocks = getPageBlocksByFilters();
-  const isCurrentPageContentBlocksEmpty = currentPageContentBlocks?.length === 0;
+  const isCurrentPageContentBlocksEmpty =
+    currentPageContentBlocks?.length === 0;
 
+  if (connectionErrorMessage) {
+    return <Connection404 errorMessage={connectionErrorMessage} />;
+  }
+  
   return (
     <PageWrapper>
       <Rows spacing="3u">
@@ -135,9 +157,24 @@ export const Page: React.FC<Props> = ({
           disabled={!hasBlocks || isPageBlocksReloading}
           selectedPageId={selectedPage}
         />
-        {isLoading && Array.from({ length: 8 }).map(() => <PageBlockLoading key={window.crypto.randomUUID()} />)}
-        {!isLoading && isCurrentPageContentBlocksEmpty && <NoResultsFound action={onBack} actionButtonText="Go back to page listing" icon={ArrowLeftIcon} description={blockSearchQuery === "" && showEmptyBlocks ? "Create a content block on the page on Notion." : "Tweak the filter to display matching Notion content blocks."}/>}
-        {!isLoading && !isCurrentPageContentBlocksEmpty &&
+        {isLoading &&
+          Array.from({ length: 8 }).map(() => (
+            <PageBlockLoading key={window.crypto.randomUUID()} />
+          ))}
+        {!isLoading && isCurrentPageContentBlocksEmpty && (
+          <NoResultsFound
+            action={onBack}
+            actionButtonText="Go back to page listing"
+            icon={ArrowLeftIcon}
+            description={
+              blockSearchQuery === "" && showEmptyBlocks
+                ? "Create a content block on the page on Notion."
+                : "Tweak the filter to display matching Notion content blocks."
+            }
+          />
+        )}
+        {!isLoading &&
+          !isCurrentPageContentBlocksEmpty &&
           currentPageContentBlocks.map((pageBlock) => (
             <PageBlock block={pageBlock} key={pageBlock.id} />
           ))}

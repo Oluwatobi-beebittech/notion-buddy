@@ -18,16 +18,12 @@ import type { State } from "src/store";
 
 import { Page } from "./Page";
 import { Settings } from "./Settings";
+import { Connection404 } from "../Connection404";
 
 export const Dashboard: React.FC = (): JSX.Element => {
   const [showAlert, setShowAlert] = React.useState<boolean>(true);
-  const [errorConfig, setErrorConfig] = React.useState<{
-    hasError: boolean;
-    message: string;
-  }>({
-    hasError: false,
-    message: "",
-  });
+  const [connectionErrorMessage, setConnectionErrorMessage] =
+    React.useState<string>("");
   const { userDetails, notionDetails } = useNotionBuddyStore<State>(
     (state) => state
   );
@@ -44,18 +40,24 @@ export const Dashboard: React.FC = (): JSX.Element => {
         pages: response.results,
         totalPages: response.results.length,
       });
+      setConnectionErrorMessage(
+        response.results.length < 1
+          ? "No page was shared. Reconnect and ensure you select at least a page"
+          : ""
+      );
     } catch (error: any) {
       const { message, internalStatusCode } = JSON.parse(error?.message);
-      setErrorConfig({
-        hasError: true,
-        message: `${internalStatusCode} - ${message}`,
-      });
+      setConnectionErrorMessage(`${message} (${internalStatusCode})`);
     }
   };
 
   React.useEffect(() => {
     getPages();
   }, []);
+
+  if (connectionErrorMessage) {
+    return <Connection404 errorMessage={connectionErrorMessage} />;
+  }
 
   if (selectedPage) {
     return (
@@ -86,20 +88,6 @@ export const Dashboard: React.FC = (): JSX.Element => {
             You are now connected to Notion
           </Alert>
         )}
-        {errorConfig.hasError && (
-          <Alert
-            tone="critical"
-            onDismiss={() => {
-              setErrorConfig({
-                hasError: false,
-                message: "",
-              });
-            }}
-          >
-            {errorConfig.message}
-          </Alert>
-        )}
-
         <Tabs>
           <Rows spacing="2u">
             <TabList>

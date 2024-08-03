@@ -17,6 +17,7 @@ import {
 } from "src/utilities";
 
 import type { Tone } from "@canva/app-ui-kit/dist/cjs/ui/apps/developing/ui_kit/components/badge/badge";
+import type { AudioMimeType, ImageMimeType, VideoMimeType } from "@canva/asset";
 import type { PageBlockType, RichTextType } from "src/api";
 
 import { AudioCard } from "../AudioCard";
@@ -62,9 +63,9 @@ export const PageBlock: React.FC<Props> = ({ block }): JSX.Element => {
           thumbnailUrl={defaultImagePlaceholder}
           badgeText={badgeText}
           ariaLabel="Add audio to design"
-          onClick={() => handleAudioClick(audioUrl)}
-          onDragStart={(event: React.DragEvent<HTMLElement>) =>
-            handleAudioDragStart(event, audioUrl)
+          onClick={()=> (mimeType: AudioMimeType) => handleAudioClick(audioUrl, mimeType)}
+          onDragStart={(event: React.DragEvent<HTMLElement>) => (mimeType: AudioMimeType) =>
+            handleAudioDragStart(event, audioUrl, mimeType)
           }
         />
       );
@@ -78,12 +79,12 @@ export const PageBlock: React.FC<Props> = ({ block }): JSX.Element => {
           badgeTone={badgeTone}
           thumbnailUrl={imageConfig[imageType]["url"]}
           badgeText={badgeText}
-          onClick={() => {
-            handleImageClick(imageConfig[imageType]["url"]);
+          onClick={() => (mimeType: ImageMimeType) => {
+            handleImageClick(imageConfig[imageType]["url"], mimeType);
           }}
           ariaLabel="Add image to design"
-          onDragStart={(event: React.DragEvent<HTMLElement>) =>
-            handleImageDragStart(event, imageConfig[imageType]["url"])
+          onDragStart={(event: React.DragEvent<HTMLElement>)=> (mimeType: ImageMimeType) =>
+            handleImageDragStart(event, imageConfig[imageType]["url"], mimeType)
           }
         />
       );
@@ -95,30 +96,29 @@ export const PageBlock: React.FC<Props> = ({ block }): JSX.Element => {
       const videoCaption: string =
         videoConfig.caption?.[0]?.["plain_text"] ?? "";
       const isYoutube = videoUrl.includes("youtube");
-
       const youtubeVideoId = isYoutube
-        ? new URLSearchParams(new URL(videoUrl).search).get("v")
-        : "";
+      ? new URLSearchParams(new URL(videoUrl).search).get("v")
+      : "";
       const thumbnailUrl = isYoutube
-        ? `https://img.youtube.com/vi/${youtubeVideoId}/maxresdefault.jpg`
-        : defaultImagePlaceholder;
+      ? `https://img.youtube.com/vi/${youtubeVideoId}/maxresdefault.jpg`
+      : defaultImagePlaceholder;
       const videoPreviewUrl = isYoutube
-        ? `https://www.youtube.com/embed/${youtubeVideoId}?start=30&end=38`
-        : "";
-
+      ? `https://www.youtube.com/embed/${youtubeVideoId}?start=30&end=38`
+      : "";
+      
+      
       return (
         <VideoCard
           badgeText={badgeText}
           videoUrl={videoUrl}
           alt={videoCaption}
           badgeTone={badgeTone}
-          mimeType="video/webm"
           thumbnailUrl={thumbnailUrl}
           videoPreviewUrl={videoPreviewUrl}
-          onClick={() => handleVideoClick(videoUrl)}
+          onClick={() => (mimeType: VideoMimeType) => handleVideoClick(videoUrl, mimeType, isYoutube, thumbnailUrl)}
           ariaLabel="Add video embed to design"
-          onDragStart={(event: React.DragEvent<HTMLElement>) =>
-            handleVideoDragStart(event, thumbnailUrl, videoUrl, videoUrl)
+          onDragStart={(event: React.DragEvent<HTMLElement>) => (mimeType: VideoMimeType) =>
+            handleVideoDragStart(event, videoUrl, mimeType, isYoutube, thumbnailUrl)
           }
         />
       );

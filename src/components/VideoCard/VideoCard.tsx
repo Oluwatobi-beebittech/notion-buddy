@@ -1,17 +1,23 @@
 import { Badge, Box, VideoCard as CanvaVideoCard } from "@canva/app-ui-kit";
 import * as React from "react";
+import { getResourceMimeType } from "src/api";
 
 import type { Tone } from "@canva/app-ui-kit/dist/cjs/ui/apps/developing/ui_kit/components/badge/badge";
 import type { VideoCardProps } from "@canva/app-ui-kit/dist/cjs/ui/apps/developing/ui_kit/components/card/video/video";
+import type { VideoMimeType } from "@canva/asset";
 
 import styles from "./VideoCard.css";
 
-type Props = VideoCardProps & {
+type Props = Omit<VideoCardProps, "mimeType" | "onClick" | "onDragStart"> & {
   alt: string;
   badgeText: string;
   badgeTone: Tone;
   videoUrl: string;
   videoPreviewUrl: string;
+  onClick: () => (mimeType: VideoMimeType) => void;
+  onDragStart: (
+    event: React.DragEvent<HTMLElement>
+  ) => (mimeType: VideoMimeType) => void;
   badgeTooltipLabel?: string | undefined;
   loading?: boolean | undefined;
 };
@@ -22,12 +28,22 @@ export const VideoCard: React.FC<Props> = ({
   badgeTone,
   badgeTooltipLabel,
   loading,
-  mimeType,
   onClick,
   onDragStart,
   thumbnailUrl,
-  videoPreviewUrl
+  videoPreviewUrl,
+  videoUrl
 }) => {
+  const [mimeType, setMimeType] = React.useState<VideoMimeType>("video/mp4");
+
+  const getMimeType = async () => {
+    const mime = await getResourceMimeType(videoUrl);
+    setMimeType((mime ?? "video/mp4") as VideoMimeType);
+  };
+
+  React.useEffect(() => {
+    getMimeType();
+  }, []);
   
   return (
     <Box className={styles.videoCard}>
@@ -47,8 +63,12 @@ export const VideoCard: React.FC<Props> = ({
         ariaLabel={ariaLabel}
         thumbnailUrl={thumbnailUrl}
         thumbnailHeight={150}
-        onClick={onClick}
-        onDragStart={onDragStart}
+        onClick={() => {
+          onClick()(mimeType);
+        }}
+        onDragStart={(event: React.DragEvent<HTMLElement>) => {
+          onDragStart(event)(mimeType);
+        }}
       />
     </Box>
   );
