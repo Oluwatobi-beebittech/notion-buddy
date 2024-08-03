@@ -93,6 +93,7 @@ export const PageBlock: React.FC<Props> = ({ block }): JSX.Element => {
       const videoConfig = block[NotionBlock.VIDEO];
       const videoType = videoConfig.type;
       const videoUrl: string = videoConfig[videoType]["url"];
+      const isVideoEmbed: boolean = videoType === "external";
       const videoCaption: string =
         videoConfig.caption?.[0]?.["plain_text"] ?? "";
       const isYoutube = videoUrl.includes("youtube");
@@ -115,10 +116,10 @@ export const PageBlock: React.FC<Props> = ({ block }): JSX.Element => {
           badgeTone={badgeTone}
           thumbnailUrl={thumbnailUrl}
           videoPreviewUrl={videoPreviewUrl}
-          onClick={() => (mimeType: VideoMimeType) => handleVideoClick(videoUrl, mimeType, isYoutube, thumbnailUrl)}
+          onClick={() => (mimeType: VideoMimeType) => handleVideoClick(videoUrl, mimeType, isVideoEmbed, thumbnailUrl)}
           ariaLabel="Add video embed to design"
           onDragStart={(event: React.DragEvent<HTMLElement>) => (mimeType: VideoMimeType) =>
-            handleVideoDragStart(event, videoUrl, mimeType, isYoutube, thumbnailUrl)
+            handleVideoDragStart(event, videoUrl, mimeType, isVideoEmbed, thumbnailUrl)
           }
         />
       );
